@@ -93,7 +93,7 @@ def main():
                     action_map[event.key].up_func()
 
         # Update world
-        delta_ms = clock.tick()
+        delta_ms = clock.tick(60)
         delta = delta_ms / 1000.0
         w.update(delta)
 
