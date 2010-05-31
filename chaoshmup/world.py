@@ -121,8 +121,12 @@ class World(object):
         self.lasers.update(delta)
         self.explosions.update(delta)
 
+        # Cleanup
         expldead = [x for x in self.explosions.sprites()[:] if not x.alive]
         self.explosions.remove(expldead)
+
+        laserdead = [x for x in self.lasers.sprites()[:] if x.rect.bottom < 0 or x.rect.right < 0 or x.rect.left > self.width or x.rect.top > self.height]
+        self.lasers.remove(laserdead)
 
         # Collision detection
         laser_enemy = pygame.sprite.groupcollide(self.enemies, self.lasers, True, True)

@@ -74,7 +74,7 @@ def main():
         # Draw screen
         w.draw(screen)
         screen.fill((0,0,0),fpsrect)
-        fps = font.render("FPS: %.2f" % clock.get_fps(), 1, (255, 255, 255))
+        fps = font.render("FPS: %.2f" % (clock.get_fps()), 1, (255, 255, 255))
         fpsrect = fps.get_rect()
         screen.blit(fps, fpsrect)
 
