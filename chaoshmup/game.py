@@ -54,12 +54,18 @@ def main():
     action_map[K_UP] = controllers[0].input_actions[2]
     action_map[K_DOWN] = controllers[0].input_actions[3]
     action_map[K_SPACE] = controllers[0].input_actions[4]
+    # TODO: Figure out better controls for turning the thing.
+    action_map[K_j] = controllers[0].input_actions[5]
+    action_map[K_k] = controllers[0].input_actions[6]
 
     action_map[K_d] = controllers[1].input_actions[0]
     action_map[K_a] = controllers[1].input_actions[1]
     action_map[K_w] = controllers[1].input_actions[2]
     action_map[K_s] = controllers[1].input_actions[3]
     action_map[K_LCTRL] = controllers[1].input_actions[4]
+    # TODO: Figure out better controls for turning the thing.
+    action_map[K_q] = controllers[1].input_actions[5]
+    action_map[K_e] = controllers[1].input_actions[6]
 
 
     # Game loop

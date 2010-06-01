@@ -1,5 +1,7 @@
 import random
 
+import math
+
 import pygame
 from pygame.locals import *
 
@@ -16,6 +18,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect = pygame.Rect(0,0,self.image.get_width(),self.image.get_height())
         self.velocity_x = 0
         self.velocity_y = 0
+        self.angle = 0
         self.frametime = 0.0
 
     def load_images(self):
@@ -60,8 +63,8 @@ class Laser(Entity):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
-        self.velocity_x = velocity_x
-        self.velocity_y = velocity_y
+        self.velocity_x = math.sin(owner.angle * math.pi / 12.0) * velocity_y
+        self.velocity_y = math.cos(owner.angle * math.pi / 12.0) * velocity_y
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -76,6 +79,11 @@ class Player(Entity):
     def __init__(self, world, name):
         Entity.__init__(self, world)
         self.name = name
+
+    def update(self, delta):
+        Entity.update(self, delta)
+        self.image = pygame.transform.rotate(self.images[0], self.angle * 10)
+        center = self.rect.center
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
