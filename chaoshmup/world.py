@@ -82,7 +82,7 @@ class Player(Entity):
 
     def update(self, delta):
         Entity.update(self, delta)
-        self.image = pygame.transform.rotate(self.images[0], self.angle * 10)
+        self.image = pygame.transform.rotate(self.images[0], self.angle * 15)
         center = self.rect.center
 
     def load_images(self):
