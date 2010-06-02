@@ -70,6 +70,10 @@ class Laser(Entity):
         image = pygame.image.load(self.IMAGE_FILE)
         self.images = [image.subsurface(pygame.Rect(32,16,8,8))]
 
+    def update(self, delta):
+        Entity.update(self, delta)
+        self.image = pygame.transform.rotate(self.images[0], self.owner.angle * 10)
+
 
 class Player(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"

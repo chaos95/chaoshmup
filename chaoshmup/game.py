@@ -5,6 +5,7 @@ from pygame.locals import *
 
 from chaoshmup.world import *
 from chaoshmup.controller import *
+#from chaoshmup.gravity import *
 
 
 WINDOWWIDTH = 640
