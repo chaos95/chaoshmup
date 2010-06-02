@@ -63,8 +63,8 @@ class Laser(Entity):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
-        self.velocity_x = math.sin(owner.angle * math.pi / 12.0) * velocity_y
-        self.velocity_y = math.cos(owner.angle * math.pi / 12.0) * velocity_y
+        self.velocity_x = math.sin(owner.angle * math.pi / 36.0) * velocity_y
+        self.velocity_y = math.cos(owner.angle * math.pi / 36.0) * velocity_y
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -72,7 +72,7 @@ class Laser(Entity):
 
     def update(self, delta):
         Entity.update(self, delta)
-        self.image = pygame.transform.rotate(self.images[0], self.owner.angle * 10)
+        self.image = pygame.transform.rotate(self.images[0], self.owner.angle * 5)
 
 
 class Player(Entity):
@@ -86,7 +86,7 @@ class Player(Entity):
 
     def update(self, delta):
         Entity.update(self, delta)
-        self.image = pygame.transform.rotate(self.images[0], self.angle * 15)
+        self.image = pygame.transform.rotate(self.images[0], self.angle * 5)
         center = self.rect.center
 
     def load_images(self):

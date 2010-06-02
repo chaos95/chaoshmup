@@ -41,17 +41,17 @@ class PlayerController(InputController):
             thrust_modifier = -1
         def control():
             if direction == Directions.RIGHT:
-                self.player.velocity_x += math.cos(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_HORIZ
-                self.player.velocity_y -= math.sin(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_HORIZ
+                self.player.velocity_x += math.cos(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_HORIZ
+                self.player.velocity_y -= math.sin(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_HORIZ
             elif direction == Directions.LEFT:
-                self.player.velocity_x -= math.cos(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_HORIZ
-                self.player.velocity_y += math.sin(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_HORIZ
+                self.player.velocity_x -= math.cos(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_HORIZ
+                self.player.velocity_y += math.sin(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_HORIZ
             elif direction == Directions.UP:
-                self.player.velocity_x -= math.sin(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_VERT
-                self.player.velocity_y -= math.cos(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_VERT
+                self.player.velocity_x -= math.sin(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_VERT
+                self.player.velocity_y -= math.cos(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_VERT
             elif direction == Directions.DOWN:
-                self.player.velocity_x += math.sin(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_VERT
-                self.player.velocity_y += math.cos(self.player.angle * math.pi / 12.0) * thrust_modifier * self.player.THRUST_VERT
+                self.player.velocity_x += math.sin(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_VERT
+                self.player.velocity_y += math.cos(self.player.angle * math.pi / 36.0) * thrust_modifier * self.player.THRUST_VERT
             elif direction == Directions.TURN_RIGHT:
                 self.player.angle -= 1
             elif direction == Directions.TURN_LEFT:
