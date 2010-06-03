@@ -1,3 +1,4 @@
+import os
 import random
 
 import pygame
@@ -31,6 +32,20 @@ def generate_world():
     
     return w
 
+def screenshot_action(screen):
+    def action():
+        scrnums = [int(x[len("screenshot_"):-len(".png")])
+                   for x in os.listdir(os.getcwd())
+                   if x.startswith("screenshot_") and x.endswith(".png")]
+        if scrnums:
+            highest = max(scrnums)
+        else:
+            highest = 0
+        newfilename = "screenshot_%d.png" % (highest+1)
+        print "Taking screenshot and saving as %s" % newfilename
+        pygame.image.save(screen,newfilename)
+    return action
+
 def main():
     # Initialise modules
     print "Initialising"
@@ -61,6 +76,7 @@ def main():
     action_map[K_s] = controllers[1].input_actions[3]
     action_map[K_LCTRL] = controllers[1].input_actions[4]
 
+    action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 
     # Game loop
     print "Starting game loop"

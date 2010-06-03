@@ -5,14 +5,16 @@ from pygame.locals import *
 
 class Entity(pygame.sprite.Sprite):
     IMAGE_FILE = ""
-    START_FRAME = 0
+    DEFAULT_ANIMATION = "default"
     FRAME_DELAY = 99999999.0
     def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
         self.load_images()
-        self.frame = self.START_FRAME
-        self.image = self.images[self.frame]
+        self.load_animations()
+        self.animation = self.animations[self.DEFAULT_ANIMATION]
+        self.frame = 0
+        self.image = self.images[self.animation[self.frame]]
         self.rect = pygame.Rect(0,0,self.image.get_width(),self.image.get_height())
         self.velocity_x = 0
         self.velocity_y = 0
@@ -21,12 +23,15 @@ class Entity(pygame.sprite.Sprite):
     def load_images(self):
         self.images = [pygame.image.load(self.IMAGE_FILE)]
 
+    def load_animations(self):
+        self.animations = {"default": range(len(self.images))}
+
     def next_frame(self):
-        if self.frame+1 >= len(self.images):
+        if self.frame+1 >= len(self.animation):
             self.frame = 0
         else:
             self.frame += 1
-        return self.images[self.frame]
+        return self.images[self.animation[self.frame]]
 
     def update(self, delta):
         self.frametime += delta
@@ -89,6 +94,7 @@ class Player(Entity):
 class Explosion(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
     FRAME_DELAY = 0.3
+
     def __init__(self, world, pos):
         Entity.__init__(self, world)
         self.rect.center = pos
@@ -101,11 +107,13 @@ class Explosion(Entity):
                        image.subsurface(pygame.Rect(32,32,16,16)),
                        image.subsurface(pygame.Rect(48,32,16,16))]
 
-    def update(self, delta):
-        Entity.update(self, delta)
-        if self.frame >= len(self.images)-1:
+    def next_frame(self):
+        if self.frame+1 >= len(self.animation):
             self.alive = False
-
+        else:
+            self.frame += 1
+        return self.images[self.animation[self.frame]]
+    
 class World(object):
     def __init__(self, width, height):
         self.width = width
