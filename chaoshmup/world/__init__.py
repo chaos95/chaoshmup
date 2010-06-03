@@ -3,75 +3,46 @@ import random
 import pygame
 from pygame.locals import *
 
-class Entity(pygame.sprite.Sprite):
-    IMAGE_FILE = ""
-    DEFAULT_ANIMATION = "default"
-    FRAME_DELAY = 99999999.0
-    def __init__(self, world):
-        pygame.sprite.Sprite.__init__(self)
-        self.world = world
-        self.load_images()
-        self.load_animations()
-        self.animation = self.animations[self.DEFAULT_ANIMATION]
-        self.frame = 0
-        self.image = self.images[self.animation[self.frame]]
-        self.rect = pygame.Rect(0,0,self.image.get_width(),self.image.get_height())
-        self.velocity_x = 0
-        self.velocity_y = 0
-        self.frametime = 0.0
+from entity import Entity
+from weapons import Laser, Plasma
 
-    def load_images(self):
-        self.images = [pygame.image.load(self.IMAGE_FILE)]
-
-    def load_animations(self):
-        self.animations = {"default": range(len(self.images))}
-
-    def next_frame(self):
-        if self.frame+1 >= len(self.animation):
-            self.frame = 0
-        else:
-            self.frame += 1
-        return self.images[self.animation[self.frame]]
-
-    def update(self, delta):
-        self.frametime += delta
-        if self.frametime >= self.FRAME_DELAY:
-            self.image = self.next_frame()
-            self.frametime = 0.0
-        self.rect = self.rect.move(self.velocity_x * delta, self.velocity_y * delta)
-
-class Enemy(Entity):
-    IMAGE_FILE = "images/i_are_spaceship.png"
+class Ship(Entity):
+    THRUST_HORIZ = 500
+    THRUST_VERT = 500
+    THRUST_ROTATE = 40
+    HEALTH = 100
+    START_ORIENTATION = 0
     def __init__(self, world):
         Entity.__init__(self, world)
+        self.health = self.HEALTH
+        self.orientation = self.START_ORIENTATION
         self.rotation = 0
-
-    def load_images(self):
-        image = pygame.image.load(self.IMAGE_FILE)
-        self.images = [image.subsurface(pygame.Rect(48,16,16,16))]
+        self.last_orientation = self.orientation
 
     def update(self, delta):
         Entity.update(self, delta)
-        self.rotation += delta * 60
-        self.image = pygame.transform.rotate(self.images[0], self.rotation)
-        center = self.rect.center
-        self.rect.size = self.image.get_rect().size
-        self.rect.center = center
+        self.orientation += self.rotation * delta
+        if self.orientation != self.last_orientation:
+            self.image = pygame.transform.rotate(self.images[self.animation[self.frame]], self.orientation)
+            center = self.rect.center
+            self.rect.size = self.image.get_rect().size
+            self.rect.center = center
+        self.last_orientation = self.orientation
 
+    def hit(self, weapon):
+        self.health -= weapon.damage
+        if self.health <= 0:
+            self.alive = False
 
-class Laser(Entity):
+class Enemy(Ship):
     IMAGE_FILE = "images/i_are_spaceship.png"
-    def __init__(self, world, owner, pos, velocity_x = 0, velocity_y = -1000):
-        Entity.__init__(self, world)
-        self.owner = owner
-        self.rect.center = pos
-        self.velocity_x = velocity_x
-        self.velocity_y = velocity_y
-
+    def __init__(self, world):
+        Ship.__init__(self, world)
+        self.rotation = 60
+        
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
-        self.images = [image.subsurface(pygame.Rect(32,16,8,8))]
-
+        self.images = [image.subsurface(pygame.Rect(48,16,16,16))]
 
 class Player(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
@@ -90,6 +61,9 @@ class Player(Entity):
     def fire_primary(self):
         self.world.lasers.add(Laser(self.world, self, self.rect.midtop))
 
+    def fire_secondary(self):
+        self.world.lasers.add(Plasma(self.world, self, self.rect.midtop))
+
 
 class Explosion(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
@@ -98,7 +72,6 @@ class Explosion(Entity):
     def __init__(self, world, pos):
         Entity.__init__(self, world)
         self.rect.center = pos
-        self.alive = True
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -129,18 +102,25 @@ class World(object):
         self.lasers.update(delta)
         self.explosions.update(delta)
 
+        # Collision detection
+        laser_enemy = pygame.sprite.groupcollide(self.enemies, self.lasers, False, True)
+        for (enemy, lasers) in laser_enemy.iteritems():
+            for laser in lasers:
+                enemy.hit(laser)
+            
         # Cleanup
+        enemydead = [x for x in self.enemies.sprites()[:] if not x.alive]
+        for x in enemydead:
+            self.explosions.add(Explosion(self, x.rect.center))
+        self.enemies.remove(enemydead)
+
         expldead = [x for x in self.explosions.sprites()[:] if not x.alive]
         self.explosions.remove(expldead)
 
         laserdead = [x for x in self.lasers.sprites()[:] if x.rect.bottom < 0 or x.rect.right < 0 or x.rect.left > self.width or x.rect.top > self.height]
         self.lasers.remove(laserdead)
 
-        # Collision detection
-        laser_enemy = pygame.sprite.groupcollide(self.enemies, self.lasers, True, True)
-        for enemy in [x for (x,y) in laser_enemy.iteritems() if len(y) > 0]:
-            self.explosions.add(Explosion(self, x.rect.center))
-
+        # Makeup enemy numbers - this is really only temporary
         makeup = 5 - (len(self.enemies) + len(self.explosions))
         for i in range(makeup):
             self.enemies.add(self.random_enemy())

@@ -69,12 +69,14 @@ def main():
     action_map[K_UP] = controllers[0].input_actions[2]
     action_map[K_DOWN] = controllers[0].input_actions[3]
     action_map[K_SPACE] = controllers[0].input_actions[4]
+    action_map[K_RALT] = controllers[0].input_actions[5]
 
     action_map[K_d] = controllers[1].input_actions[0]
     action_map[K_a] = controllers[1].input_actions[1]
     action_map[K_w] = controllers[1].input_actions[2]
     action_map[K_s] = controllers[1].input_actions[3]
     action_map[K_LCTRL] = controllers[1].input_actions[4]
+    action_map[K_LALT] = controllers[1].input_actions[5]
 
     action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 

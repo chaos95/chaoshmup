@@ -26,6 +26,7 @@ class PlayerController(InputController):
             , InputAction("%s Up Thruster" % self.player.name, self.thruster_control(True, Directions.UP), self.thruster_control(False, Directions.UP))
             , InputAction("%s Down Thruster" % self.player.name, self.thruster_control(True, Directions.DOWN), self.thruster_control(False, Directions.DOWN))
             , InputAction("%s Fire Primary" % self.player.name, self.laser_fire(), None)
+            , InputAction("%s Fire Secondary" % self.player.name, self.plasma_fire(), None)
             ]
             
     def thruster_control(self, switch_on, direction):
@@ -47,5 +48,10 @@ class PlayerController(InputController):
     def laser_fire(self):
         def control():
             self.player.fire_primary()
+        return control
+
+    def plasma_fire(self):
+        def control():
+            self.player.fire_secondary()
         return control
             
