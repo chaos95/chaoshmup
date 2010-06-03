@@ -5,7 +5,6 @@ from pygame.locals import *
 
 from chaoshmup.world import *
 from chaoshmup.controller import *
-#from chaoshmup.gravity import *
 
 
 WINDOWWIDTH = 640
@@ -29,6 +28,10 @@ def generate_world():
     p = Player(w, "Player 2")
     p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
     w.players.add(p)
+
+    g = planet(w, p)
+    g.rect.center = (random.randint(50, self.width-20),
+                     random.randint(20, self.height-20))
     
     return w
 

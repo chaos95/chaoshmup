@@ -118,6 +118,19 @@ class Explosion(Entity):
         if self.frame >= len(self.images)-1:
             self.alive = False
 
+class planet(Entity):
+    IMAGE_FILE = "images/i_are_spaceship.png"
+    def __init__(self, world, ship):
+        Entity.__init__(self, world)
+        self.distance = ship.rect.center - self.rect.center
+        ship.velocity_x = ship.velocity_x * math.e ** (-1 * self.distance[0])
+        ship.velocity_y = ship.velocity_y * math.e ** (-1 * self.distance[1])
+
+    def load_images(self):
+        image = pygame.image.load(self.IMAGE_FILE)
+        self.images = [image.subsurface(pygame.Rect(48,32,16,16))]
+
+
 class World(object):
     def __init__(self, width, height):
         self.width = width
@@ -126,12 +139,14 @@ class World(object):
         self.enemies = pygame.sprite.Group()
         self.lasers = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
+        self.planets = pygame.sprite.Group()
 
     def update(self, delta):
         self.players.update(delta)
         self.enemies.update(delta)
         self.lasers.update(delta)
         self.explosions.update(delta)
+        self.planets.update(delta)
 
         # Cleanup
         expldead = [x for x in self.explosions.sprites()[:] if not x.alive]
@@ -168,4 +183,3 @@ class World(object):
         e.rect.center = (random.randint(50, self.width-50),
                          random.randint(20, self.height / 2))
         return e
-        
