@@ -1,3 +1,4 @@
+import os
 import random
 
 import pygame
@@ -29,11 +30,21 @@ def generate_world():
     p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
     w.players.add(p)
 
-    g = planet(w, p)
-    g.rect.center = (random.randint(50, self.width-20),
-                     random.randint(20, self.height-20))
-    
     return w
+
+def screenshot_action(screen):
+    def action():
+        scrnums = [int(x[len("screenshot_"):-len(".png")])
+                   for x in os.listdir(os.getcwd())
+                   if x.startswith("screenshot_") and x.endswith(".png")]
+        if scrnums:
+            highest = max(scrnums)
+        else:
+            highest = 0
+        newfilename = "screenshot_%d.png" % (highest+1)
+        print "Taking screenshot and saving as %s" % newfilename
+        pygame.image.save(screen,newfilename)
+    return action
 
 def main():
     # Initialise modules
@@ -58,6 +69,7 @@ def main():
     action_map[K_UP] = controllers[0].input_actions[2]
     action_map[K_DOWN] = controllers[0].input_actions[3]
     action_map[K_SPACE] = controllers[0].input_actions[4]
+    action_map[K_RALT] = controllers[0].input_actions[7]
     # TODO: Figure out better controls for turning the thing.
     action_map[K_j] = controllers[0].input_actions[5]
     action_map[K_k] = controllers[0].input_actions[6]
@@ -67,10 +79,12 @@ def main():
     action_map[K_w] = controllers[1].input_actions[2]
     action_map[K_s] = controllers[1].input_actions[3]
     action_map[K_LCTRL] = controllers[1].input_actions[4]
+    action_map[K_LALT] = controllers[1].input_actions[7]
     # TODO: Figure out better controls for turning the thing.
     action_map[K_q] = controllers[1].input_actions[5]
     action_map[K_e] = controllers[1].input_actions[6]
 
+    action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 
     # Game loop
     print "Starting game loop"

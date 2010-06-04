@@ -14,8 +14,8 @@ class Directions(object):
     LEFT=1
     UP=2
     DOWN=3
-    TURN_LEFT=5
-    TURN_RIGHT=6
+    TURN_LEFT=6
+    TURN_RIGHT=7
 
 class InputController(object):
     def __init__(self):
@@ -32,6 +32,7 @@ class PlayerController(InputController):
             , InputAction("%s Fire Primary" % self.player.name, self.laser_fire(), None)
             , InputAction("%s Rotate Left" % self.player.name, self.thruster_control(True, Directions.TURN_LEFT), self.thruster_control(False, Directions.TURN_LEFT))
             , InputAction("%s Rotate Right" % self.player.name, self.thruster_control(True, Directions.TURN_RIGHT), self.thruster_control(False, Directions.TURN_RIGHT))
+            , InputAction("%s Fire Secondary" % self.player.name, self.plasma_fire(), None)
             ]
             
     def thruster_control(self, switch_on, direction):
@@ -62,5 +63,10 @@ class PlayerController(InputController):
     def laser_fire(self):
         def control():
             self.player.fire_primary()
+        return control
+
+    def plasma_fire(self):
+        def control():
+            self.player.fire_secondary()
         return control
             
