@@ -31,18 +31,26 @@ class PlayerController(InputController):
             
     def thruster_control(self, switch_on, direction):
         if switch_on:
-            thrust_modifier = 1
-        else: # switch off
-            thrust_modifier = -1
-        def control():
-            if direction == Directions.RIGHT:
-                self.player.velocity_x += thrust_modifier * self.player.THRUST_HORIZ
-            elif direction == Directions.LEFT:
-                self.player.velocity_x -= thrust_modifier * self.player.THRUST_HORIZ
-            elif direction == Directions.UP:
-                self.player.velocity_y -= thrust_modifier * self.player.THRUST_VERT
-            elif direction == Directions.DOWN:
-                self.player.velocity_y += thrust_modifier * self.player.THRUST_VERT
+            def control():
+                if direction == Directions.RIGHT:
+                    self.player.acceleration += (self.player.THRUST_HORIZ, 0)
+                elif direction == Directions.LEFT:
+                    self.player.acceleration -= (self.player.THRUST_HORIZ, 0)
+                elif direction == Directions.UP:
+                    self.player.acceleration -= (0, self.player.THRUST_VERT)
+                elif direction == Directions.DOWN:
+                    self.player.acceleration += (0, self.player.THRUST_VERT)
+        else:
+            def control():
+                if direction == Directions.RIGHT:
+                    self.player.acceleration -= (self.player.THRUST_HORIZ, 0)
+                elif direction == Directions.LEFT:
+                    self.player.acceleration += (self.player.THRUST_HORIZ, 0)
+                elif direction == Directions.UP:
+                    self.player.acceleration += (0, self.player.THRUST_VERT)
+                elif direction == Directions.DOWN:
+                    self.player.acceleration -= (0, self.player.THRUST_VERT)
+
         return control
 
     def laser_fire(self):

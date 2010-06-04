@@ -1,10 +1,20 @@
 import pygame
 from pygame.locals import *
 
+from contrib.vector import Vector
+
+def sign(val):
+    if val >= 0:
+        return 1
+    else:
+        return -1
+
 class Entity(pygame.sprite.Sprite):
     IMAGE_FILE = ""
     DEFAULT_ANIMATION = "default"
     FRAME_DELAY = 99999999.0
+    MAX_VEL = 500
+    FRICTION_MULTIPLIER = 0.9
     def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
@@ -14,8 +24,8 @@ class Entity(pygame.sprite.Sprite):
         self.frame = 0
         self.image = self.images[self.animation[self.frame]]
         self.rect = pygame.Rect(0,0,self.image.get_width(),self.image.get_height())
-        self.velocity_x = 0
-        self.velocity_y = 0
+        self.acceleration = Vector((0,0))
+        self.velocity = Vector((0,0))
         self.frametime = 0.0
         self.alive = True
 
@@ -42,5 +52,13 @@ class Entity(pygame.sprite.Sprite):
             self.image = self.next_frame()
             self.frametime = 0.0
 
+        # Apply acceleration and clip velocity, apply friction
+        self.velocity += self.acceleration
+        length = self.velocity.length
+        if length > self.MAX_VEL:
+            self.velocity = self.velocity.scaled_to(self.MAX_VEL)
+        if self.FRICTION_MULTIPLIER != 1 and length > 0 and self.acceleration.length <= 0:
+            self.velocity *= self.FRICTION_MULTIPLIER + (1 - self.FRICTION_MULTIPLIER) * delta
+
         # Move
-        self.rect = self.rect.move(self.velocity_x * delta, self.velocity_y * delta)
+        self.rect = self.rect.move(self.velocity.x * delta, self.velocity.y * delta)

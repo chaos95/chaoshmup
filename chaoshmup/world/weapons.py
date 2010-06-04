@@ -1,16 +1,18 @@
 import pygame
 from pygame.locals import *
 
+from contrib import vector
+
 from chaoshmup.world import Entity
 
 class Laser(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
-    def __init__(self, world, owner, pos, velocity_x = 0, velocity_y = -1000):
+    MAX_VEL=1000
+    def __init__(self, world, owner, pos, acceleration=(0,-1000)):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
-        self.velocity_x = velocity_x
-        self.velocity_y = velocity_y
+        self.acceleration = vector.Vector(acceleration)
         self.damage = 50
 
     def load_images(self):
@@ -20,8 +22,9 @@ class Laser(Entity):
 class Plasma(Laser):
     FRAME_DELAY = 0.05
     DEFAULT_ANIMATION = "throb"
-    def __init__(self, world, owner, pos, velocity_x = 0, velocity_y = -250):
-        Laser.__init__(self, world, owner, pos, velocity_x, velocity_y)
+    MAX_VEL=250
+    def __init__(self, world, owner, pos, acceleration=(0,-1000)):
+        Laser.__init__(self, world, owner, pos, acceleration)
         self.damage = 100
 
     def load_images(self):
