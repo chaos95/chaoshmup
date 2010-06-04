@@ -116,7 +116,6 @@ class World(object):
                     i.force.append(( G * n.mass * i.mass) / ((i.rect.centery - n.rect.centery) ** 2 + (i.rect.centerx - n.rect.centerx) ** 2))
                     i.gravitation = sum(i.force)
                     # TODO: figure out how to make this interesting.
-                    print i.gravitation
 
     def update(self, delta):
         self.players.update(delta)
