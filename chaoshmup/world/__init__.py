@@ -44,13 +44,11 @@ class Enemy(Ship):
         image = pygame.image.load(self.IMAGE_FILE)
         self.images = [image.subsurface(pygame.Rect(48,16,16,16))]
 
-class Player(Entity):
+class Player(Ship):
     IMAGE_FILE = "images/i_are_spaceship.png"
-    THRUST_HORIZ = 500
-    THRUST_VERT = 500
     FRAME_DELAY = 0.1
     def __init__(self, world, name):
-        Entity.__init__(self, world)
+        Ship.__init__(self, world)
         self.name = name
 
     def load_images(self):
@@ -68,7 +66,6 @@ class Player(Entity):
 class Explosion(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
     FRAME_DELAY = 0.3
-
     def __init__(self, world, pos):
         Entity.__init__(self, world)
         self.rect.center = pos
@@ -80,12 +77,8 @@ class Explosion(Entity):
                        image.subsurface(pygame.Rect(32,32,16,16)),
                        image.subsurface(pygame.Rect(48,32,16,16))]
 
-    def next_frame(self):
-        if self.frame+1 >= len(self.animation):
-            self.alive = False
-        else:
-            self.frame += 1
-        return self.images[self.animation[self.frame]]
+    def animation_complete(self):
+        self.alive = False
     
 class World(object):
     def __init__(self, width, height):

@@ -27,14 +27,20 @@ class Entity(pygame.sprite.Sprite):
 
     def next_frame(self):
         if self.frame+1 >= len(self.animation):
-            self.frame = 0
+            self.animation_complete()
         else:
             self.frame += 1
         return self.images[self.animation[self.frame]]
 
+    def animation_complete(self):
+        self.frame = 0
+
     def update(self, delta):
+        # Animate
         self.frametime += delta
         if self.frametime >= self.FRAME_DELAY:
             self.image = self.next_frame()
             self.frametime = 0.0
+
+        # Move
         self.rect = self.rect.move(self.velocity_x * delta, self.velocity_y * delta)
