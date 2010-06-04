@@ -20,6 +20,7 @@ class Ship(Entity):
         self.orientation = self.START_ORIENTATION
         self.rotation = 0
         self.last_orientation = self.orientation
+        self.mass = 100
 
     def update(self, delta):
         Entity.update(self, delta)
@@ -103,6 +104,16 @@ class World(object):
         self.lasers = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         self.planets = pygame.sprite.Group()
+        self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
+
+    def gravity(self):
+        G = 6.6
+        for i in self.matter:
+            for n in self.matter:
+                if i != n:
+                    i.force.append(( G * n.mass * i.mass) / ((i.rect.centery - n.rect.centery) ** 2 + (i.rect.centerx - n.rect.centerx) ** 2))
+                    i.gravitation = sum(i.force)
+                    # TODO: figure out how to make this interesting.
 
     def update(self, delta):
         self.players.update(delta)
@@ -110,6 +121,8 @@ class World(object):
         self.lasers.update(delta)
         self.explosions.update(delta)
         self.planets.update(delta)
+
+        self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
 
         # Collision detection
         laser_enemy = pygame.sprite.groupcollide(self.enemies, self.lasers, False, True)

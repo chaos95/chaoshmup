@@ -121,6 +121,8 @@ def main():
         delta = delta_ms / 1000.0
         w.update(delta)
 
+        w.gravity()
+
     # Quit game
     print "Quitting"
     pygame.quit()
