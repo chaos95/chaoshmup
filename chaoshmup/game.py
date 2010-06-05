@@ -30,6 +30,10 @@ def generate_world():
     p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
     w.players.add(p)
 
+#    g = Planet(w)
+#    g.rect.center = (random.randint(20, WINDOWHEIGHT - 20),
+#                     random.randint(20, WINDOWWIDTH-20))
+
     return w
 
 def screenshot_action(screen):

@@ -44,12 +44,23 @@ class Enemy(Ship):
         self.rotation = 60
 
     def update(self, delta):
+        Ship.update(self, delta)
         self.velocity_x += (self.gravitation_x * delta)
         self.velocity_y += (self.gravitation_y * delta)
         
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
         self.images = [image.subsurface(pygame.Rect(48,16,16,16))]
+
+class Planet(Entity):
+    IMAGE_FILE = "images/i_are_spaceship.png"
+    def __init__(self, world):
+        Entity.__init__(self, world)
+        self.mass = 1000000
+
+    def load_images(self):
+        image = pygame.image.load(self.IMAGE_FILE)
+        self.images = [image.subsurface(pygame.Rect(16,16,16,16))]
 
 class Player(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
@@ -121,8 +132,14 @@ class World(object):
                 i.force_y.pop()
             for n in self.matter:
                 if i != n:
-                    i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
-                    i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
+                    if (i.rect.centerx == n.rect.centerx):
+                        i.force_x.append(( G * n.mass * i.mass) / 1 )
+                    elif (i.rect.centerx != n.rect.centerx):
+                        i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
+                    if (i.rect.centery == n.rect.centery):
+                        i.force_y.append(( G * n.mass * i.mass) / 1)
+                    elif (i.rect.centery != n.rect.centery):
+                        i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
                     i.gravitation_x = sum(i.force_x)
                     i.gravitation_y = sum(i.force_y)
 
