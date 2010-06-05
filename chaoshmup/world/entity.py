@@ -20,8 +20,10 @@ class Entity(pygame.sprite.Sprite):
         self.frametime = 0.0
         self.alive = True
         self.mass = 0
-        self.force = []
-        self.gravitation = 0
+        self.force_x = []
+        self.force_y = []
+        self.gravitation_x = 0
+        self.gravitation_y = 0
 
     def load_images(self):
         self.images = [pygame.image.load(self.IMAGE_FILE)]

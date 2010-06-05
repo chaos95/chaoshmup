@@ -42,6 +42,10 @@ class Enemy(Ship):
     def __init__(self, world):
         Ship.__init__(self, world)
         self.rotation = 60
+
+    def update(self, delta):
+        self.velocity_x += (self.gravitation_x * delta)
+        self.velocity_y += (self.gravitation_y * delta)
         
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -60,6 +64,8 @@ class Player(Entity):
         Entity.update(self, delta)
         self.image = pygame.transform.rotate(self.images[0], self.angle * 5)
         center = self.rect.center
+        self.velocity_x += (self.gravitation_x * delta)
+        self.velocity_y += (self.gravitation_y * delta)
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -109,13 +115,16 @@ class World(object):
     def gravity(self):
         G = 6.6
         for i in self.matter:
-            while len(i.force) > 0:
-                i.force.pop()
+            while len(i.force_x) > 0:
+                i.force_x.pop()
+            while len(i.force_y) > 0:
+                i.force_y.pop()
             for n in self.matter:
                 if i != n:
-                    i.force.append(( G * n.mass * i.mass) / ((i.rect.centery - n.rect.centery) ** 2 + (i.rect.centerx - n.rect.centerx) ** 2))
-                    i.gravitation = sum(i.force)
-                    # TODO: figure out how to make this interesting.
+                    i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
+                    i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
+                    i.gravitation_x = sum(i.force_x)
+                    i.gravitation_y = sum(i.force_y)
 
     def update(self, delta):
         self.players.update(delta)
