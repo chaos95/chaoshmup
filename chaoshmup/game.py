@@ -30,9 +30,11 @@ def generate_world():
     p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
     w.players.add(p)
 
-#    g = Planet(w)
-#    g.rect.center = (random.randint(20, WINDOWHEIGHT - 20),
-#                     random.randint(20, WINDOWWIDTH-20))
+    g = Planet(w)
+    g.rect.center = (random.randint(20, WINDOWHEIGHT - 20),
+                     random.randint(20, WINDOWWIDTH-20))
+
+    print g.rect.center
 
     return w
 
@@ -114,6 +116,9 @@ def main():
                 # Escape key is magic, bypasses normal input handling
                 if event.key == K_ESCAPE:
                     playing = False
+                elif event.key == K_F1:
+                    print w.players.sprites()[1].gravitation_x
+                    print w.players.sprites()[1].gravitation_y
                 elif event.key in action_map and action_map[event.key].down_func:
                     action_map[event.key].down_func()
             elif event.type == KEYUP:
@@ -123,9 +128,9 @@ def main():
         # Update world
         delta_ms = clock.tick(60)
         delta = delta_ms / 1000.0
+        w.gravity()
         w.update(delta)
 
-        w.gravity()
 
     # Quit game
     print "Quitting"

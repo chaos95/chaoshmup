@@ -20,7 +20,7 @@ class Ship(Entity):
         self.orientation = self.START_ORIENTATION
         self.rotation = 0
         self.last_orientation = self.orientation
-        self.mass = 100
+        self.mass = 10
 
     def update(self, delta):
         Entity.update(self, delta)
@@ -42,11 +42,17 @@ class Enemy(Ship):
     def __init__(self, world):
         Ship.__init__(self, world)
         self.rotation = 60
+        self.mass = 10
 
     def update(self, delta):
         Ship.update(self, delta)
-        self.velocity_x += (self.gravitation_x * delta)
-        self.velocity_y += (self.gravitation_y * delta)
+        self.velocity_x -= (self.gravitation_x * delta)
+        self.velocity_y -= (self.gravitation_y * delta)
+        if (self.rect.centerx > self.world.width) or (self.rect.centery > self.world.height) or (self.rect.centerx < 0) or (self.rect.centery < 0):
+           # self.velocity_x = self.velocity_x * -1
+           # self.velocity_y = self.velocity_y * -1
+            self.velocity_x = 0
+            self.velocity_y = 0
         
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -70,6 +76,7 @@ class Player(Entity):
     def __init__(self, world, name):
         Entity.__init__(self, world)
         self.name = name
+        self.mass = 10
 
     def update(self, delta):
         Entity.update(self, delta)
@@ -77,6 +84,9 @@ class Player(Entity):
         center = self.rect.center
         self.velocity_x += (self.gravitation_x * delta)
         self.velocity_y += (self.gravitation_y * delta)
+        if (self.rect.centerx > self.world.width) or (self.rect.centery > self.world.height) or (self.rect.centerx < 0) or (self.rect.centery < 0):
+            self.velocity_x = 0
+            self.velocity_y = 0
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)
@@ -124,7 +134,7 @@ class World(object):
         self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
 
     def gravity(self):
-        G = 6.6
+        G = 1
         for i in self.matter:
             while len(i.force_x) > 0:
                 i.force_x.pop()
@@ -135,11 +145,17 @@ class World(object):
                     if (i.rect.centerx == n.rect.centerx):
                         i.force_x.append(( G * n.mass * i.mass) / 1 )
                     elif (i.rect.centerx != n.rect.centerx):
-                        i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
+                        if (i.rect.centerx - n.rect.centerx) >= 0:
+                            i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
+                        else: # it's negative
+                            i.force_x.append( -1 * (( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 ))
                     if (i.rect.centery == n.rect.centery):
                         i.force_y.append(( G * n.mass * i.mass) / 1)
                     elif (i.rect.centery != n.rect.centery):
-                        i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
+                        if (i.rect.centery - n.rect.centery) >= 0:
+                            i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
+                        else: # it's negative
+                            i.force_y.append( -1 * (( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 ))
                     i.gravitation_x = sum(i.force_x)
                     i.gravitation_y = sum(i.force_y)
 
@@ -151,6 +167,8 @@ class World(object):
         self.planets.update(delta)
 
         self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
+
+        self.gravity()
 
         # Collision detection
         laser_enemy = pygame.sprite.groupcollide(self.enemies, self.lasers, False, True)
