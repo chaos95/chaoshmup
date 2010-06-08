@@ -14,7 +14,9 @@ class Entity(pygame.sprite.Sprite):
     DEFAULT_ANIMATION = "default"
     FRAME_DELAY = 99999999.0
     MAX_VEL = 500
-    FRICTION_MULTIPLIER = 0.9
+    FRICTION_MULTIPLIER = 0.5
+    START_ORIENTATION = 180
+    START_ROTATION = 0
     def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
@@ -28,6 +30,16 @@ class Entity(pygame.sprite.Sprite):
         self.velocity = Vector((0,0))
         self.frametime = 0.0
         self.alive = True
+        self.orientation = self.START_ORIENTATION
+        self.last_orientation = self.orientation
+        self.rotation = self.START_ROTATION
+
+    @property
+    def position(self):
+        return Vector(self.rect.center)
+    @position.setter
+    def position(self,newpos):
+        self.rect.center = tuple(newpos)
 
     def load_images(self):
         self.images = [pygame.image.load(self.IMAGE_FILE)]
@@ -51,6 +63,15 @@ class Entity(pygame.sprite.Sprite):
         if self.frametime >= self.FRAME_DELAY:
             self.image = self.next_frame()
             self.frametime = 0.0
+
+        # Rotate
+        self.orientation += self.rotation * delta
+        if self.orientation != self.last_orientation:
+            self.image = pygame.transform.rotate(self.images[self.animation[self.frame]], self.orientation)
+            center = self.rect.center
+            self.rect.size = self.image.get_rect().size
+            self.rect.center = center
+        self.last_orientation = self.orientation
 
         # Apply acceleration and clip velocity, apply friction
         self.velocity += self.acceleration

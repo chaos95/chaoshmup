@@ -10,6 +10,7 @@ from chaoshmup.controller import *
 
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
+FRAMERATE = 60
 
 def initialise():
     pygame.init()
@@ -22,15 +23,21 @@ def initialise():
 def generate_world():
     w = World(WINDOWWIDTH, WINDOWHEIGHT)
 
-    p = Player(w, "Player 1")
-    p.rect.center = (WINDOWWIDTH * 1 / 4, WINDOWHEIGHT * 3 / 4)
+    p = Player(w, "Player 1", "Players")
+    p.rect.center = ((WINDOWWIDTH * 1) / 4, (WINDOWHEIGHT * 3) / 4)
     w.players.add(p)
 
-    p = Player(w, "Player 2")
-    p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
+    p = Player(w, "Player 2", "Players")
+    p.rect.center = ((WINDOWWIDTH * 3) / 4, (WINDOWHEIGHT * 3) / 4)
     w.players.add(p)
     
     return w
+
+def random_enemy(w):
+    e = Enemy(w)
+    e.position = (random.randint(50, WINDOWWIDTH-50),
+                  random.randint(20, WINDOWHEIGHT / 2))
+    return e
 
 def screenshot_action(screen):
     def action():
@@ -111,9 +118,14 @@ def main():
                     action_map[event.key].up_func()
 
         # Update world
-        delta_ms = clock.tick(60)
+        delta_ms = clock.tick(FRAMERATE)
         delta = delta_ms / 1000.0
         w.update(delta)
+
+        # Makeup enemy numbers - this is really only temporary
+        makeup = 15 - (len(w.enemies) + len(w.explosions))
+        for i in range(makeup):
+            w.enemies.add(random_enemy(w))
 
     # Quit game
     print "Quitting"
