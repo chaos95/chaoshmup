@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Morgan Lokhorst-Blight 
+# Copyright (c) 2010, Morgan Lokhorst-Blight, Michael Brindle
 # All rights reserved. 
 # 
 # Redistribution and use in source and binary forms, with or without 
@@ -67,6 +67,7 @@ class Enemy(Ship):
 class Player(Ship):
     IMAGE_FILE = "images/i_are_spaceship.png"
     FRAME_DELAY = 0.1
+    START_ORIENTATION = 0
     def __init__(self, world, name, team):
         Ship.__init__(self, world)
         self.name = name

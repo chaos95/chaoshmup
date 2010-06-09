@@ -159,16 +159,12 @@ def main():
         # Update world
         delta_ms = clock.tick(FRAMERATE)
         delta = delta_ms / 1000.0
-        #w.gravity()
         w.update(delta)
 
-#<<<<<<< HEAD
-#=======
         # Makeup enemy numbers - this is really only temporary
         makeup = 15 - (len(w.enemies) + len(w.explosions))
         for i in range(makeup):
             w.enemies.add(random_enemy(w))
-#>>>>>>> upstream/master
 
     # Quit game
     print "Quitting"

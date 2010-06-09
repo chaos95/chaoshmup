@@ -96,6 +96,8 @@ class Entity(pygame.sprite.Sprite):
             center = self.rect.center
             self.rect.size = self.image.get_rect().size
             self.rect.center = center
+        else:
+            self.image = pygame.transform.rotate(self.images[self.animation[self.frame-1]], self.orientation)
         self.last_orientation = self.orientation
 
         # Apply acceleration and clip velocity, apply friction

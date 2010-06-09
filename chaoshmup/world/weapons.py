@@ -37,7 +37,7 @@ class Projectile(Entity):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
-        self.acceleration = vector.Vector(acceleration).rotated(-heading)
+        self.acceleration = vector.Vector(acceleration).rotated(180 - heading)
         self.damage = self.DAMAGE
 
 class LaserBolt(Projectile):
@@ -119,7 +119,7 @@ class LaserRepeater(RepeaterWeapon):
 
 class PlasmaRepeater(RepeaterWeapon):
     PROJECTILE_TYPE = PlasmaBall
-    RATE_OF_FIRE = 1.0
+    RATE_OF_FIRE = .5 # because 1.0 is way to long a wait
 
 class PlasmaCannon(Weapon):
     PROJECTILE_TYPE = PlasmaBall
