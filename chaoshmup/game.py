@@ -94,32 +94,33 @@ def main():
 
     # Set up controllers
     print "Setting up controls"
-    controllers = []
+    controllers = {}
     for p in w.players.sprites():
-        controllers.append(PlayerController(p))
+        controllers[p.name] = PlayerController(p)
 
     action_map = {}
 
     # TODO: read controls from a config file
-    action_map[K_RIGHT] = controllers[0].input_actions[0]
-    action_map[K_LEFT] = controllers[0].input_actions[1]
-    action_map[K_UP] = controllers[0].input_actions[2]
-    action_map[K_DOWN] = controllers[0].input_actions[3]
-    action_map[K_SPACE] = controllers[0].input_actions[4]
-    action_map[K_RALT] = controllers[0].input_actions[5]
     # TODO: Figure out better controls for turning the thing.
     #action_map[K_j] = controllers[0].input_actions[5]
     #action_map[K_k] = controllers[0].input_actions[6]
 
-    action_map[K_d] = controllers[1].input_actions[0]
-    action_map[K_a] = controllers[1].input_actions[1]
-    action_map[K_w] = controllers[1].input_actions[2]
-    action_map[K_s] = controllers[1].input_actions[3]
-    action_map[K_LCTRL] = controllers[1].input_actions[4]
-    action_map[K_LALT] = controllers[1].input_actions[5]
     # TODO: Figure out better controls for turning the thing.
     #action_map[K_q] = controllers[1].input_actions[5]
     #action_map[K_e] = controllers[1].input_actions[6]
+    action_map[K_RIGHT] = controllers["Player 1"].input_actions[0]
+    action_map[K_LEFT] = controllers["Player 1"].input_actions[1]
+    action_map[K_UP] = controllers["Player 1"].input_actions[2]
+    action_map[K_DOWN] = controllers["Player 1"].input_actions[3]
+    action_map[K_RCTRL] = controllers["Player 1"].input_actions[4]
+    action_map[K_RSHIFT] = controllers["Player 1"].input_actions[5]
+
+    action_map[K_d] = controllers["Player 2"].input_actions[0]
+    action_map[K_a] = controllers["Player 2"].input_actions[1]
+    action_map[K_w] = controllers["Player 2"].input_actions[2]
+    action_map[K_s] = controllers["Player 2"].input_actions[3]
+    action_map[K_LCTRL] = controllers["Player 2"].input_actions[4]
+    action_map[K_LSHIFT] = controllers["Player 2"].input_actions[5]
 
     action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 
