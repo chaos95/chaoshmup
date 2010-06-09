@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Morgan Lokhorst-Blight, Michael Brindle
+# Copyright (c) 2010, Morgan Lokhorst-Blight 
 # All rights reserved. 
 # 
 # Redistribution and use in source and binary forms, with or without 

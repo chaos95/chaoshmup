@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<title>Vector Library</title>
+<meta name="author" content="Richard Thomas" />
+<meta name="date" content="2009-07-17" />
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5196 2007-06-03 20:25:28Z wiemann $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="vector-library">
+<h1 class="title">Vector Library</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Richard Thomas</td></tr>
+<tr><th class="docinfo-name">Contact:</th>
+<td><a class="first last reference external" href="mailto:vector&#64;supereffective.org">vector&#64;supereffective.org</a></td></tr>
+<tr><th class="docinfo-name">Date:</th>
+<td>2009-07-17</td></tr>
+</tbody>
+</table>
+<p>This is a collection of convenient abstractions for two dimensional floating
+point vectors in <a class="reference external" href="http://www.python.org/">Python</a>.</p>
+<div class="section" id="history">
+<h1>History</h1>
+<p><em>Version 0.3</em></p>
+<ul class="simple">
+<li>Minor optimisations.</li>
+<li>Added a length2 property to vectors.</li>
+<li>Fixed badly broken angle_to computations.</li>
+<li>Iterable arguments are no longer allowed, arguments should be indexable. This
+allows for further optimisation as objects are only converted to vectors if
+they need to be. Instance attributes are always vectors.</li>
+<li>Improved existing documentation; clarfications.</li>
+</ul>
+<p><em>Version 0.2</em></p>
+<ul class="simple">
+<li>Triangle class added.</li>
+<li>Vector.is_zero added.</li>
+<li>Vector.scaled_to added.</li>
+<li>Vector.safe_scaled_to added.</li>
+<li>Vector.safe_normalised added.</li>
+<li>Rectangle class added.</li>
+<li>Line.parallel added.</li>
+<li>Line.perpendicular added.</li>
+<li>v function added.</li>
+<li>Released 15th March 2009.</li>
+</ul>
+<p><em>Version 0.1</em></p>
+<ul class="simple">
+<li>Vector, Line and LineSegment classes added.</li>
+<li>Released 22nd January 2009.</li>
+</ul>
+</div>
+<div class="section" id="vector-api">
+<h1>Vector API</h1>
+<p>Vector objects are two dimensional floating point vectors. They form the core
+of the vector library. They are initialised with a suitable sequence of floats
+or integers:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import Vector
+&gt;&gt;&gt; v = Vector((1, 2))
+&gt;&gt;&gt; assert v == Vector([1, 2])
+</pre>
+<p>The most important piece of functionality is easy vector arithmetic. Not only
+can vectors be added together and scaled, suitable constructor arguments can
+be used instead of one of the arguments. For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import Vector
+&gt;&gt;&gt; v = Vector((1, 2))
+&gt;&gt;&gt; assert v * 2 == Vector((2, 4))
+&gt;&gt;&gt; assert v + (0, -1) == Vector((1, 1))
+&gt;&gt;&gt; assert v + Vector((0, -1)) == (1, 1)
+</pre>
+<p>There are a few module level constants for common vectors:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">vector.zero</span></tt></dt>
+<dd>The zero vector (<tt class="docutils literal"><span class="pre">Vector((0,</span> <span class="pre">0))</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">vector.unit_x</span></tt></dt>
+<dd>A unit vector in the x direction (<tt class="docutils literal"><span class="pre">Vector((1,</span> <span class="pre">0))</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">vector.unit_y</span></tt></dt>
+<dd>A unit vector in the y direction (<tt class="docutils literal"><span class="pre">Vector((0,</span> <span class="pre">1))</span></tt>).</dd>
+</dl>
+</blockquote>
+<p>As a convenience there is a module level function to construct vectors with a
+more straightforward syntax. It isn't used internally for efficiency reasons,
+but it makes explicitly describing vectors externally a lot prettier:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import v, Vector
+&gt;&gt;&gt; assert v(1, 2) == Vector((1, 2))
+&gt;&gt;&gt; assert v((1, 2)) == Vector((1, 2))
+</pre>
+<p>The following properties and methods are available on the Vector class and its
+instances:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Vector.x</span></tt></dt>
+<dd><em>property:</em> Alias for the x-coordinate.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.y</span></tt></dt>
+<dd><em>property:</em> Alias for the y-coordinate.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.length</span></tt></dt>
+<dd><em>property:</em> The length of the vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.length2</span></tt></dt>
+<dd><em>property:</em> The squared length of the vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.angle</span></tt></dt>
+<dd><em>property:</em> The angle to the positive x-axis. (-180, 180].</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.is_zero</span></tt></dt>
+<dd><em>property:</em> Flag indicating whether the vector is the zero vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.rotated(angle)</span></tt></dt>
+<dd><em>method:</em> Create a copy of the vector rotated by the given angle.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.scaled_to(length)</span></tt></dt>
+<dd><em>method:</em> Create a copy of the vector scaled to a given length.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.safe_scaled_to(length)</span></tt></dt>
+<dd><em>method:</em> As above but returns the zero vector if given a zero vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.normalised()</span></tt></dt>
+<dd><em>method:</em> Create a copy of the vector scaled to unit length.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.safe_normalised()</span></tt></dt>
+<dd><em>method:</em> As above but returns the zero vector if given a zero vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.perpendicular()</span></tt></dt>
+<dd><em>method:</em> Create a copy of the vector rotated by 90 degrees.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.dot(other)</span></tt></dt>
+<dd><em>method:</em> Compute the dot product with another vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.cross(other)</span></tt></dt>
+<dd><em>method:</em> Compute the cross product with another vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.project(other)</span></tt></dt>
+<dd><em>method:</em> Compute the projection of a vector onto this one.</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.angle_to(other)</span></tt></dt>
+<dd><em>method:</em> Compute the absolute angle made to another vector. [0, 180].</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.signed_angle_to(other)</span></tt></dt>
+<dd><em>method:</em> Compute the signed angle made to another vector. (-180, 180].</dd>
+<dt><tt class="docutils literal"><span class="pre">Vector.distance_to(other)</span></tt></dt>
+<dd><em>method:</em> Compute the distance to another vector.</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section" id="line-api">
+<h1>Line API</h1>
+<p>Line objects are representations of infinite and oriented lines. Their
+internal representation is as a perpendicular direction and a distance from
+the origin and they can be initialised with these quantities:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import Line
+&gt;&gt;&gt; l = Line((1, 1), 2.0)
+</pre>
+<p>In the above construction the direction of the line is from the right of the
+direction vector to the left. Alternatively they can be initialised from a pair
+of points on the line:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import Line
+&gt;&gt;&gt; l = Line.from_points((0, 1), (1, 0))
+</pre>
+<p>In this case the direction of the line is from the first point to the second.
+As a convenience there are a couple of default lines as module level constants:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">vector.x_axis</span></tt></dt>
+<dd>The Line object for the x-axis (<tt class="docutils literal"><span class="pre">Line(unit_y,</span> <span class="pre">0.0)</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">vector.y_axis</span></tt></dt>
+<dd>The Line object for the y-axis (<tt class="docutils literal"><span class="pre">Line(-unit_x,</span> <span class="pre">0.0)</span></tt>).</dd>
+</dl>
+</blockquote>
+<p>The following attributes, properties and methods are available on the Line
+class and its instances:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Line.__init__(direction,</span> <span class="pre">distance)</span></tt></dt>
+<dd><em>constructor:</em> Default constructor (see above).</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.from_points(first,</span> <span class="pre">second)</span></tt></dt>
+<dd><em>constructor:</em> Alternate constructor (see above).</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.direction</span></tt></dt>
+<dd><em>attribute:</em> The perpendicular unit vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.along</span></tt></dt>
+<dd><em>attribute:</em> The parallel unit vector.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.distance</span></tt></dt>
+<dd><em>attribute:</em> The distance from the origin to the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.offset</span></tt></dt>
+<dd><em>property:</em> The perpendicular offset from the origin.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.project(point)</span></tt></dt>
+<dd><em>method:</em> Compute the projection of a point onto the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.reflect(point)</span></tt></dt>
+<dd><em>method:</em> Compute the reflection a point in the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.distance_to(point)</span></tt></dt>
+<dd><em>method:</em> Compute the (signed) distance from a point to the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.is_on_left(point)</span></tt></dt>
+<dd><em>method:</em> Determine if the point is on the left of the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.is_on_right(point)</span></tt></dt>
+<dd><em>method:</em> Determine if the point is on the right of the line.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.parallel(point)</span></tt></dt>
+<dd><em>method:</em> Compute a new line parallel and through a given point.</dd>
+<dt><tt class="docutils literal"><span class="pre">Line.perpendicular(point)</span></tt></dt>
+<dd><em>method:</em> Compute a new line perpendicular and through a given point.</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section" id="linesegment-api">
+<h1>LineSegment API</h1>
+<p>LineSegment objects are representations of finite oriented line segments. Their
+internal representation is the line of which they form part and two distances
+being the distances from the endpoints of the origin's projection onto the
+line. They can be initialised as such:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import Line, LineSegment
+&gt;&gt;&gt; l = Line((1, 1), 2.0)
+&gt;&gt;&gt; s = LineSegment(l, -1.0, 1.0)
+</pre>
+<p>The sign of the distance obviously respects the direction of the line. An
+alternative constructor allows you to create a LineSegment from its two
+endpoints:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from vector import LineSegment
+&gt;&gt;&gt; s = LineSegment.from_points((0, 1), (1, 0))
+</pre>
+<p>The following attributes, properties and methods are available on the
+LineSegment class and its instances:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">LineSegment.__init__(line,</span> <span class="pre">min_dist,</span> <span class="pre">max_dist)</span></tt></dt>
+<dd><em>constructor:</em> Default constructor (see above).</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.from_points(first,</span> <span class="pre">second)</span></tt></dt>
+<dd><em>constructor:</em> Alternate constructor (see above).</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.line</span></tt></dt>
+<dd><em>attribute:</em> The line of which the segment is a part.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.min_dist</span></tt></dt>
+<dd><em>attribute:</em> The distance to the start from the origin's projection.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.max_dist</span></tt></dt>
+<dd><em>attribute:</em> The distance to the end from the origin's projection.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.length</span></tt></dt>
+<dd><em>property:</em> The length on the line segment.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.start</span></tt></dt>
+<dd><em>property:</em> The start point of the line segment.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.mid</span></tt></dt>
+<dd><em>property:</em> The mid point of the line segment.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.end</span></tt></dt>
+<dd><em>property:</em> The end point of the line segment.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.project(point)</span></tt></dt>
+<dd><em>method:</em> Compute the projection of a point onto the line segment.</dd>
+<dt><tt class="docutils literal"><span class="pre">LineSegment.distance_to(point)</span></tt></dt>
+<dd><em>method:</em> Compute the distance from a point to the line segment.</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section" id="triangle-api">
+<h1>Triangle API</h1>
+<p>Triangle objects are representations of oriented vector triangles. Their
+implementation is not finished, please see the code if you are interested
+in them.</p>
+</div>
+<div class="section" id="rectangle-api">
+<h1>Rectangle API</h1>
+<p>Rectangle objects are representations of axis-aligned rectangles, specified by
+their lower-left and upper-right corners. They are primarily useful as
+a collision area in hashing implementations. There is an alternate constructor
+which will produce the smallest rectangle bounding a given set of points.</p>
+<p>The following properties and methods are available on the Rectangle class:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Rectangle.__init__(lo,</span> <span class="pre">hi)</span></tt></dt>
+<dd>Default constructor (see above).</dd>
+<dt><tt class="docutils literal"><span class="pre">Rectangle.as_bounding(points)</span></tt></dt>
+<dd>Alternate constructor (see above).</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section" id="miscellaneous-notes">
+<h1>Miscellaneous Notes</h1>
+<p>A lot of the attributes of objects from this library are caching properties.
+This means that their value is computed exactly once. For example, the length
+of a vector is computed and thenceforth remembered rather than computed
+whenever it is needed.</p>
+</div>
+<div class="section" id="license">
+<h1>License</h1>
+<pre class="literal-block">
+Copyright (c) 2009 The Super Effective Team (www.supereffective.org).
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name(s) of the copyright holders nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AS IS AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</pre>
+</div>
+</div>
+</body>
+</html>

@@ -1,3 +1,27 @@
+# Copyright (c) 2010, Morgan Lokhorst-Blight, Michael Brindle
+# All rights reserved. 
+# 
+# Redistribution and use in source and binary forms, with or without 
+# modification, are permitted provided that the following conditions are met: 
+# 
+#  * Redistributions of source code must retain the above copyright notice, 
+#    this list of conditions and the following disclaimer. 
+#  * Redistributions in binary form must reproduce the above copyright 
+#    notice, this list of conditions and the following disclaimer in the 
+#    documentation and/or other materials provided with the distribution. 
+# 
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY 
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+# DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY 
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+# DAMAGE. 
+
 import os
 import random
 
@@ -10,6 +34,7 @@ from chaoshmup.controller import *
 
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
+FRAMERATE = 60
 
 def initialise():
     pygame.init()
@@ -22,12 +47,12 @@ def initialise():
 def generate_world():
     w = World(WINDOWWIDTH, WINDOWHEIGHT)
 
-    p = Player(w, "Player 1")
-    p.rect.center = (WINDOWWIDTH * 1 / 4, WINDOWHEIGHT * 3 / 4)
+    p = Player(w, "Player 1", "Players")
+    p.rect.center = ((WINDOWWIDTH * 1) / 4, (WINDOWHEIGHT * 3) / 4)
     w.players.add(p)
 
-    p = Player(w, "Player 2")
-    p.rect.center = (WINDOWWIDTH * 3 / 4, WINDOWHEIGHT * 3 / 4)
+    p = Player(w, "Player 2", "Players")
+    p.rect.center = ((WINDOWWIDTH * 3) / 4, (WINDOWHEIGHT * 3) / 4)
     w.players.add(p)
 
     g = Planet(w)
@@ -37,6 +62,12 @@ def generate_world():
     print g.rect.center
 
     return w
+
+def random_enemy(w):
+    e = Enemy(w)
+    e.position = (random.randint(50, WINDOWWIDTH-50),
+                  random.randint(20, WINDOWHEIGHT / 2))
+    return e
 
 def screenshot_action(screen):
     def action():
@@ -75,20 +106,20 @@ def main():
     action_map[K_UP] = controllers[0].input_actions[2]
     action_map[K_DOWN] = controllers[0].input_actions[3]
     action_map[K_SPACE] = controllers[0].input_actions[4]
-    action_map[K_RALT] = controllers[0].input_actions[7]
+    action_map[K_RALT] = controllers[0].input_actions[5]
     # TODO: Figure out better controls for turning the thing.
-    action_map[K_j] = controllers[0].input_actions[5]
-    action_map[K_k] = controllers[0].input_actions[6]
+    #action_map[K_j] = controllers[0].input_actions[5]
+    #action_map[K_k] = controllers[0].input_actions[6]
 
     action_map[K_d] = controllers[1].input_actions[0]
     action_map[K_a] = controllers[1].input_actions[1]
     action_map[K_w] = controllers[1].input_actions[2]
     action_map[K_s] = controllers[1].input_actions[3]
     action_map[K_LCTRL] = controllers[1].input_actions[4]
-    action_map[K_LALT] = controllers[1].input_actions[7]
+    action_map[K_LALT] = controllers[1].input_actions[5]
     # TODO: Figure out better controls for turning the thing.
-    action_map[K_q] = controllers[1].input_actions[5]
-    action_map[K_e] = controllers[1].input_actions[6]
+    #action_map[K_q] = controllers[1].input_actions[5]
+    #action_map[K_e] = controllers[1].input_actions[6]
 
     action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 
@@ -117,8 +148,7 @@ def main():
                 if event.key == K_ESCAPE:
                     playing = False
                 elif event.key == K_F1:
-                    print w.players.sprites()[1].gravitation_x
-                    print w.players.sprites()[1].gravitation_y
+                    print w.players.sprites()[1].mass
                 elif event.key in action_map and action_map[event.key].down_func:
                     action_map[event.key].down_func()
             elif event.type == KEYUP:
@@ -126,11 +156,18 @@ def main():
                     action_map[event.key].up_func()
 
         # Update world
-        delta_ms = clock.tick(60)
+        delta_ms = clock.tick(FRAMERATE)
         delta = delta_ms / 1000.0
-        w.gravity()
+        #w.gravity()
         w.update(delta)
 
+#<<<<<<< HEAD
+#=======
+        # Makeup enemy numbers - this is really only temporary
+        makeup = 15 - (len(w.enemies) + len(w.explosions))
+        for i in range(makeup):
+            w.enemies.add(random_enemy(w))
+#>>>>>>> upstream/master
 
     # Quit game
     print "Quitting"
