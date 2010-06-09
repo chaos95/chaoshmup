@@ -60,32 +60,6 @@ class World(object):
         self.planets = pygame.sprite.Group()
         self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
 
-#    def gravity(self):
-#        G = 1
-#        for i in self.matter:
-#            while len(i.force_x) > 0:
-#                i.force_x.pop()
-#            while len(i.force_y) > 0:
-#                i.force_y.pop()
-#            for n in self.matter:
-#                if i != n:
-#                    if (i.rect.centerx == n.rect.centerx):
-#                        i.force_x.append(( G * n.mass * i.mass) / 1 )
-#                    elif (i.rect.centerx != n.rect.centerx):
-#                        if (i.rect.centerx - n.rect.centerx) >= 0:
-#                            i.force_x.append(( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 )
-#                        else: # it's negative
-#                            i.force_x.append( -1 * (( G * n.mass * i.mass) / (i.rect.centerx - n.rect.centerx) ** 2 ))
-#                    if (i.rect.centery == n.rect.centery):
-#                        i.force_y.append(( G * n.mass * i.mass) / 1)
-#                    elif (i.rect.centery != n.rect.centery):
-#                        if (i.rect.centery - n.rect.centery) >= 0:
-#                            i.force_y.append(( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 )
-#                        else: # it's negative
-#                            i.force_y.append( -1 * (( G * n.mass * i.mass) / (i.rect.centery - n.rect.centery) ** 2 ))
-#                    i.gravitation_x = sum(i.force_x)
-#                    i.gravitation_y = sum(i.force_y)
-
     def update(self, delta):
         self.players.update(delta)
         self.enemies.update(delta)

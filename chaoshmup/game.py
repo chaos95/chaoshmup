@@ -97,13 +97,6 @@ def main():
     action_map = {}
 
     # TODO: read controls from a config file
-    # TODO: Figure out better controls for turning the thing.
-    #action_map[K_j] = controllers[0].input_actions[5]
-    #action_map[K_k] = controllers[0].input_actions[6]
-
-    # TODO: Figure out better controls for turning the thing.
-    #action_map[K_q] = controllers[1].input_actions[5]
-    #action_map[K_e] = controllers[1].input_actions[6]
     action_map[K_RIGHT] = controllers["Player 1"].input_actions[0]
     action_map[K_LEFT] = controllers["Player 1"].input_actions[1]
     action_map[K_UP] = controllers["Player 1"].input_actions[2]
