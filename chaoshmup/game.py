@@ -156,8 +156,9 @@ def main():
 
         # Makeup enemy numbers - this is really only temporary
         makeup = 15 - (len(w.enemies) + len(w.explosions))
-        for i in range(makeup):
-            w.enemies.add(random_enemy(w))
+        if makeup > 0:
+            for i in range(makeup):
+                w.enemies.add(random_enemy(w))
 
     # Quit game
     print "Quitting"
