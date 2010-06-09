@@ -53,13 +53,10 @@ class PlayerController(InputController):
             , InputAction("%s Left Thruster" % self.player.name, self.thruster_control(True, Directions.LEFT), self.thruster_control(False, Directions.LEFT))
             , InputAction("%s Up Thruster" % self.player.name, self.thruster_control(True, Directions.UP), self.thruster_control(False, Directions.UP))
             , InputAction("%s Down Thruster" % self.player.name, self.thruster_control(True, Directions.DOWN), self.thruster_control(False, Directions.DOWN))
-#<<<<<<< HEAD
-#            , InputAction("%s Rotate Left" % self.player.name, self.thruster_control(True, Directions.TURN_LEFT), self.thruster_control(False, Directions.TURN_LEFT))
-#            , InputAction("%s Rotate Right" % self.player.name, self.thruster_control(True, Directions.TURN_RIGHT), self.thruster_control(False, Directions.TURN_RIGHT))
-#=======
             , InputAction("%s Fire Primary" % self.player.name, self.primary_fire(), self.primary_release())
             , InputAction("%s Fire Secondary" % self.player.name, self.secondary_fire(), self.secondary_release())
-#>>>>>>> upstream/master
+            , InputAction("%s Rotate Left" % self.player.name, self.thruster_control(True, Directions.TURN_LEFT), self.thruster_control(False, Directions.TURN_LEFT))
+            , InputAction("%s Rotate Right" % self.player.name, self.thruster_control(True, Directions.TURN_RIGHT), self.thruster_control(False, Directions.TURN_RIGHT))
             ]
             
     def thruster_control(self, switch_on, direction):

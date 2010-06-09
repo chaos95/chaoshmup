@@ -48,18 +48,14 @@ def generate_world():
     w = World(WINDOWWIDTH, WINDOWHEIGHT)
 
     p = Player(w, "Player 1", "Players")
-    p.rect.center = ((WINDOWWIDTH * 1) / 4, (WINDOWHEIGHT * 3) / 4)
+    # ship to spawn at bottom right
+    p.rect.center = ((WINDOWWIDTH * 3) / 4, (WINDOWHEIGHT * 3) / 4) 
     w.players.add(p)
 
     p = Player(w, "Player 2", "Players")
-    p.rect.center = ((WINDOWWIDTH * 3) / 4, (WINDOWHEIGHT * 3) / 4)
+    # ship to spawn at bottom left
+    p.rect.center = ((WINDOWWIDTH * 1) / 4, (WINDOWHEIGHT * 3) / 4)
     w.players.add(p)
-
-    g = Planet(w)
-    g.rect.center = (random.randint(20, WINDOWHEIGHT - 20),
-                     random.randint(20, WINDOWWIDTH-20))
-
-    print g.rect.center
 
     return w
 
@@ -112,8 +108,10 @@ def main():
     action_map[K_LEFT] = controllers["Player 1"].input_actions[1]
     action_map[K_UP] = controllers["Player 1"].input_actions[2]
     action_map[K_DOWN] = controllers["Player 1"].input_actions[3]
-    action_map[K_RCTRL] = controllers["Player 1"].input_actions[4]
+    action_map[K_SPACE] = controllers["Player 1"].input_actions[4]
     action_map[K_RSHIFT] = controllers["Player 1"].input_actions[5]
+    action_map[K_j] = controllers["Player 1"].input_actions[6]
+    action_map[K_k] = controllers["Player 1"].input_actions[7]
 
     action_map[K_d] = controllers["Player 2"].input_actions[0]
     action_map[K_a] = controllers["Player 2"].input_actions[1]
@@ -121,6 +119,8 @@ def main():
     action_map[K_s] = controllers["Player 2"].input_actions[3]
     action_map[K_LCTRL] = controllers["Player 2"].input_actions[4]
     action_map[K_LSHIFT] = controllers["Player 2"].input_actions[5]
+    action_map[K_q] = controllers["Player 2"].input_actions[6]
+    action_map[K_e] = controllers["Player 2"].input_actions[7]
 
     action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 
