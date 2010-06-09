@@ -95,19 +95,17 @@ def main():
     action_map = {}
 
     # TODO: read controls from a config file
-    action_map[K_RIGHT] = controllers["Player 1"].input_actions[0]
+    action_map[K_UP] = controllers["Player 1"].input_actions[0]
     action_map[K_LEFT] = controllers["Player 1"].input_actions[1]
-    action_map[K_UP] = controllers["Player 1"].input_actions[2]
-    action_map[K_DOWN] = controllers["Player 1"].input_actions[3]
-    action_map[K_RCTRL] = controllers["Player 1"].input_actions[4]
-    action_map[K_RSHIFT] = controllers["Player 1"].input_actions[5]
+    action_map[K_RIGHT] = controllers["Player 1"].input_actions[2]
+    action_map[K_RCTRL] = controllers["Player 1"].input_actions[3]
+    action_map[K_RSHIFT] = controllers["Player 1"].input_actions[4]
 
-    action_map[K_d] = controllers["Player 2"].input_actions[0]
+    action_map[K_w] = controllers["Player 2"].input_actions[0]
     action_map[K_a] = controllers["Player 2"].input_actions[1]
-    action_map[K_w] = controllers["Player 2"].input_actions[2]
-    action_map[K_s] = controllers["Player 2"].input_actions[3]
-    action_map[K_LCTRL] = controllers["Player 2"].input_actions[4]
-    action_map[K_LSHIFT] = controllers["Player 2"].input_actions[5]
+    action_map[K_d] = controllers["Player 2"].input_actions[2]
+    action_map[K_LCTRL] = controllers["Player 2"].input_actions[3]
+    action_map[K_LSHIFT] = controllers["Player 2"].input_actions[4]
 
     action_map[K_F12] = InputAction("Take Screenshot",screenshot_action(screen),None)
 

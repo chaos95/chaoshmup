@@ -45,36 +45,31 @@ class PlayerController(InputController):
     def __init__(self, player):
         self.player = player
         self.input_actions = [
-            InputAction("%s Right Thruster" % self.player.name, self.thruster_control(True, Directions.RIGHT), self.thruster_control(False, Directions.RIGHT))
-            , InputAction("%s Left Thruster" % self.player.name, self.thruster_control(True, Directions.LEFT), self.thruster_control(False, Directions.LEFT))
-            , InputAction("%s Up Thruster" % self.player.name, self.thruster_control(True, Directions.UP), self.thruster_control(False, Directions.UP))
-            , InputAction("%s Down Thruster" % self.player.name, self.thruster_control(True, Directions.DOWN), self.thruster_control(False, Directions.DOWN))
+            InputAction("%s Forward Thruster" % self.player.name, self.thruster_fire(), self.thruster_release())
+            , InputAction("%s Rotate Anti-clockwise" % self.player.name, self.rotate_ccw(), self.rotate_cw())
+            , InputAction("%s Rotate Clockwise" % self.player.name, self.rotate_cw(), self.rotate_ccw())
             , InputAction("%s Fire Primary" % self.player.name, self.primary_fire(), self.primary_release())
             , InputAction("%s Fire Secondary" % self.player.name, self.secondary_fire(), self.secondary_release())
             ]
             
-    def thruster_control(self, switch_on, direction):
-        if switch_on:
-            def control():
-                if direction == Directions.RIGHT:
-                    self.player.acceleration += (self.player.THRUST_HORIZ, 0)
-                elif direction == Directions.LEFT:
-                    self.player.acceleration -= (self.player.THRUST_HORIZ, 0)
-                elif direction == Directions.UP:
-                    self.player.acceleration -= (0, self.player.THRUST_VERT)
-                elif direction == Directions.DOWN:
-                    self.player.acceleration += (0, self.player.THRUST_VERT)
-        else:
-            def control():
-                if direction == Directions.RIGHT:
-                    self.player.acceleration -= (self.player.THRUST_HORIZ, 0)
-                elif direction == Directions.LEFT:
-                    self.player.acceleration += (self.player.THRUST_HORIZ, 0)
-                elif direction == Directions.UP:
-                    self.player.acceleration += (0, self.player.THRUST_VERT)
-                elif direction == Directions.DOWN:
-                    self.player.acceleration -= (0, self.player.THRUST_VERT)
+    def thruster_fire(self):
+        def control():
+            self.player.thrust = 200
+        return control
 
+    def thruster_release(self):
+        def control():
+            self.player.thrust = 0
+        return control
+
+    def rotate_ccw(self):
+        def control():
+            self.player.rotation += 360
+        return control
+
+    def rotate_cw(self):
+        def control():
+            self.player.rotation -= 360
         return control
 
     def primary_fire(self):

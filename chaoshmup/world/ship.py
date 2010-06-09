@@ -25,6 +25,8 @@
 import pygame
 from pygame.locals import *
 
+from contrib import vector
+
 from entity import Entity
 from weapons import LaserRepeater, PlasmaRepeater, PlasmaCannon
 
@@ -35,11 +37,16 @@ class Ship(Entity):
     HEALTH = 100
     def __init__(self, world):
         Entity.__init__(self, world)
+        self.thrust = 0
         self.team = None
         self.health = self.HEALTH
         self.weapons = []
 
     def update(self, delta):
+        if self.thrust != 0:
+            self.acceleration = vector.Vector((0,self.thrust)).rotated(180-self.orientation)
+        else:
+            self.acceleration = vector.Vector((0,0))
         Entity.update(self, delta)
         for w in self.weapons:
             w.update(delta)
