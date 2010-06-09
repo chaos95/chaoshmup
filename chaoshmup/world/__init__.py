@@ -58,7 +58,6 @@ class World(object):
         self.projectiles = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         self.planets = pygame.sprite.Group()
-        self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
 
     def update(self, delta):
         self.players.update(delta)
@@ -66,10 +65,6 @@ class World(object):
         self.projectiles.update(delta)
         self.explosions.update(delta)
         self.planets.update(delta)
-
-        self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:]
-
-        #self.gravity()
 
         # Keep players on the screen
         for p in self.players.sprites():

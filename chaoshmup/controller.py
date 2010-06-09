@@ -88,6 +88,7 @@ class PlayerController(InputController):
                     self.player.rotation -= 30 # 10 degrees
                 elif direction == Directions.TURN_RIGHT:
                     self.player.rotation += 30 # 10 degrees
+        
 
         return control
 

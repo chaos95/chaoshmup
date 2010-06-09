@@ -101,7 +101,7 @@ class Entity(pygame.sprite.Sprite):
         self.last_orientation = self.orientation
 
         # Apply acceleration and clip velocity, apply friction
-        self.velocity += self.acceleration
+        self.velocity += self.acceleration.rotated(-self.orientation)
         length = self.velocity.length
         if length > self.MAX_VEL:
             self.velocity = self.velocity.scaled_to(self.MAX_VEL)
