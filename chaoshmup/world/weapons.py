@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Morgan Lokhorst-Blight 
+# Copyright (c) 2010, Morgan Lokhorst-Blight, Michael Brindle
 # All rights reserved. 
 # 
 # Redistribution and use in source and binary forms, with or without 
@@ -37,7 +37,7 @@ class Projectile(Entity):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
-        self.acceleration = vector.Vector(acceleration).rotated(-heading)
+        self.acceleration = vector.Vector(acceleration).rotated(180-heading)
         self.damage = self.DAMAGE
 
 class LaserBolt(Projectile):
@@ -56,7 +56,7 @@ class PlasmaBall(Projectile):
     DAMAGE=100
     def __init__(self, world, owner, pos, heading=0, acceleration=(0,1000)):
         Projectile.__init__(self, world, owner, pos, heading, acceleration)
-        self.frame = random.randint(0,len(self.animation))
+        self.frame = random.randint(0,len(self.animation)-1)
 
     def load_images(self):
         image= pygame.image.load(self.IMAGE_FILE)

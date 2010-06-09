@@ -48,6 +48,7 @@ class Entity(pygame.sprite.Sprite):
         self.load_animations()
         self.animation = self.animations[self.DEFAULT_ANIMATION]
         self.frame = 0
+        self.last_frame = self.frame
         self.image = self.images[self.animation[self.frame]]
         self.rect = pygame.Rect(0,0,self.image.get_width(),self.image.get_height())
         self.acceleration = Vector((0,0))
@@ -72,6 +73,7 @@ class Entity(pygame.sprite.Sprite):
         self.animations = {"default": range(len(self.images))}
 
     def next_frame(self):
+        self.last_frame = self.frame
         if self.frame+1 >= len(self.animation):
             self.animation_complete()
         else:
@@ -90,7 +92,7 @@ class Entity(pygame.sprite.Sprite):
 
         # Rotate
         self.orientation += self.rotation * delta
-        if self.orientation != self.last_orientation:
+        if self.orientation != self.last_orientation or self.frame != self.last_frame:
             self.image = pygame.transform.rotate(self.images[self.animation[self.frame]], self.orientation)
             center = self.rect.center
             self.rect.size = self.image.get_rect().size
