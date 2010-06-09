@@ -22,6 +22,8 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 # DAMAGE. 
 
+import random
+
 import pygame
 from pygame.locals import *
 
@@ -52,6 +54,10 @@ class PlasmaBall(Projectile):
     DEFAULT_ANIMATION = "throb"
     MAX_VEL=250
     DAMAGE=100
+    def __init__(self, world, owner, pos, heading=0, acceleration=(0,1000)):
+        Projectile.__init__(self, world, owner, pos, heading, acceleration)
+        self.frame = random.randint(0,len(self.animation))
+
     def load_images(self):
         image= pygame.image.load(self.IMAGE_FILE)
         self.images = [image.subsurface(pygame.Rect(48,0,8,8)),
@@ -96,16 +102,15 @@ class RepeaterWeapon(Weapon):
         self.firing = False
 
     def update(self, delta):
-        if not self.firing:
-            return
         self.reload += delta
         if self.reload >= self.RATE_OF_FIRE:
             if self.PROJECTILE_TYPE is None:
                 return
 
-            self.world.projectiles.add(
-                self.PROJECTILE_TYPE(self.world, self.owner,
-                                     self.owner.position, self.owner.orientation))
+            if self.firing:
+                self.world.projectiles.add(
+                    self.PROJECTILE_TYPE(self.world, self.owner,
+                                         self.owner.position, self.owner.orientation))
             self.reload = 0.0
     
 class LaserRepeater(RepeaterWeapon):

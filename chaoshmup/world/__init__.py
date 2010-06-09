@@ -28,59 +28,7 @@ import pygame
 from pygame.locals import *
 
 from entity import Entity
-from weapons import LaserRepeater, PlasmaRepeater, PlasmaCannon
-
-class Ship(Entity):
-    THRUST_HORIZ = 500
-    THRUST_VERT = 500
-    THRUST_ROTATE = 40
-    HEALTH = 100
-    def __init__(self, world):
-        Entity.__init__(self, world)
-        self.team = None
-        self.health = self.HEALTH
-        self.weapons = []
-
-    def update(self, delta):
-        Entity.update(self, delta)
-        for w in self.weapons:
-            w.update(delta)
-
-    def hit(self, weapon):
-        self.health -= weapon.damage
-        if self.health <= 0:
-            self.alive = False
-
-class Enemy(Ship):
-    START_ORIENTATION = 0
-    START_ROTATION = 60
-    IMAGE_FILE = "images/i_are_spaceship.png"
-    TEAM = "Enemy"
-    def __init__(self, world):
-        Ship.__init__(self, world)
-        self.team = self.TEAM
-        self.weapons = [PlasmaRepeater(self.world, self)]
-        self.weapons[0].fire()
-        
-    def load_images(self):
-        image = pygame.image.load(self.IMAGE_FILE)
-        self.images = [image.subsurface(pygame.Rect(48,16,16,16))]
-
-class Player(Ship):
-    IMAGE_FILE = "images/i_are_spaceship.png"
-    FRAME_DELAY = 0.1
-    def __init__(self, world, name, team):
-        Ship.__init__(self, world)
-        self.name = name
-        self.team = team
-        self.weapons = [LaserRepeater(self.world, self),
-                        PlasmaCannon(self.world, self)]
-
-    def load_images(self):
-        image = pygame.image.load(self.IMAGE_FILE)
-        self.images = [image.subsurface(pygame.Rect(0,0,16,32)),
-                       image.subsurface(pygame.Rect(16,0,16,32))]
-
+from ship import Enemy, Player
 
 class Explosion(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
@@ -113,6 +61,17 @@ class World(object):
         self.enemies.update(delta)
         self.projectiles.update(delta)
         self.explosions.update(delta)
+
+        # Keep players on the screen
+        for p in self.players.sprites():
+            if p.rect.right > self.width:
+                p.rect.right = self.width
+            if p.rect.left < 0:
+                p.rect.left = 0
+            if p.rect.bottom > self.height:
+                p.rect.bottom = self.height
+            if p.rect.top < 0:
+                p.rect.top = 0
 
         # Collision detection
         projectile_enemy = pygame.sprite.groupcollide(self.enemies, self.projectiles, False, False)
