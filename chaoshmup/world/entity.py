@@ -23,7 +23,6 @@
 # DAMAGE. 
 
 import pygame
-from pygame.locals import *
 
 from contrib.vector import Vector
 
