@@ -71,9 +71,9 @@ class PlayerController(InputController):
                 elif direction == Directions.DOWN:
                     self.player.acceleration += (0, self.player.THRUST_VERT)
                 elif direction == Directions.TURN_LEFT:
-                    self.player.rotation += 30 
+                    self.player.rotation += 360 
                 elif direction == Directions.TURN_RIGHT:
-                    self.player.rotation -= 30 
+                    self.player.rotation -= 360 
         else:
             def control():
                 if direction == Directions.RIGHT:
@@ -85,9 +85,9 @@ class PlayerController(InputController):
                 elif direction == Directions.DOWN:
                     self.player.acceleration -= (0, self.player.THRUST_VERT)
                 elif direction == Directions.TURN_LEFT:
-                    self.player.rotation -= 30 # 10 degrees
+                    self.player.rotation -= 360 
                 elif direction == Directions.TURN_RIGHT:
-                    self.player.rotation += 30 # 10 degrees
+                    self.player.rotation += 360 
         
 
         return control
