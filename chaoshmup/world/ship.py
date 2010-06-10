@@ -23,7 +23,6 @@
 # DAMAGE. 
 
 import pygame
-from pygame.locals import *
 
 from entity import Entity
 from weapons import LaserRepeater, PlasmaRepeater, PlasmaCannon
