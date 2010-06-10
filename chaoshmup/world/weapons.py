@@ -25,7 +25,6 @@
 import random
 
 import pygame
-from pygame.locals import *
 
 from contrib import vector
 
