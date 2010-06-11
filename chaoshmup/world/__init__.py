@@ -80,7 +80,7 @@ class World(object):
         self.planets.update(delta)
 
         # Keep players on the screen
-        for p in self.players.sprites():
+        for p in self.players.sprites() + self.enemies.sprites():
             if p.rect.right > self.width:
                 p.rect.right = self.width
             if p.rect.left < 0:
