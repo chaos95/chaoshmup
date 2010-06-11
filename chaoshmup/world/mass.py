@@ -27,10 +27,14 @@ import pygame
 from entity import Entity
 
 class black_hole(Entity):
-    IMAGE_FILE = "images/black_hole.png" # hurpa derp
+    IMAGE_FILE = "images/i_are_spaceship.png" # hurpa derp
     def __init__(self, world):
         Entity.__init__(self, world)
         self.mass = 1000000 # 1 million units - it's a black hole.
+
+    def load_image(self):
+        image = pygame.image.load(self.IMAGE_FILE)
+        self.images = [image.subsurface(pygame.Rect(48,48,16,16))]
 
     def update(self, delta):
         Entity.update(self, delta)

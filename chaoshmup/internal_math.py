@@ -34,7 +34,6 @@ def tuple_xy_add(foo):
     for i in range(0,len(foo)):
         bar += foo[i][0]
         baz += foo[i][1]
-    print bar, baz
     return bar, baz
 
 def uni_gravity(G, cray, boff):
