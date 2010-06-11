@@ -37,6 +37,8 @@ class Ship(Entity):
         self.team = None
         self.health = self.HEALTH
         self.weapons = []
+        self.mass = 50
+        self.force = []
 
     def update(self, delta):
         Entity.update(self, delta)

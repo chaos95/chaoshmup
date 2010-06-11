@@ -152,6 +152,7 @@ def main():
         # Update world
         delta_ms = clock.tick(FRAMERATE)
         delta = delta_ms / 1000.0
+        w.gravity(delta)
         w.update(delta)
 
         # Makeup enemy numbers - this is really only temporary

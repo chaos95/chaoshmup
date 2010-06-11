@@ -30,6 +30,8 @@ import pygame
 
 from entity import Entity
 from ship import Enemy, Player
+from mass import *
+from chaoshmup.internal_math import *
 
 class Explosion(Entity):
     IMAGE_FILE = "images/i_are_spaceship.png"
@@ -57,6 +59,18 @@ class World(object):
         self.projectiles = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         self.planets = pygame.sprite.Group()
+
+    def gravity(self, delta):
+        G = .66 # some semblence of a universal gravitational constant.
+        self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] # I'll add stars, planets, etc. later
+        for cray in self.matter:
+            while len(cray.force) > 0:
+                cray.force.pop()
+            for boff in self.matter:
+                cray.force.append(uni_gravity(G, cray, boff))
+            foo = tuple_xy_add(cray.force)
+            cray.velocity_x += foo[0] * delta
+            cray.velocity_y += foo[0] * delta
 
     def update(self, delta):
         self.players.update(delta)

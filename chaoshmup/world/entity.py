@@ -58,6 +58,7 @@ class Entity(pygame.sprite.Sprite):
         self.last_orientation = self.orientation
         self.rotation = self.START_ROTATION
         self.mass = 0
+        self.force = []
 
     @property
     def position(self):

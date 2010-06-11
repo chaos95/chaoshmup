@@ -27,3 +27,25 @@ def sign(foo):
         return 1
     else:
         return -1
+
+def tuple_xy_add(foo):
+    bar = 0
+    baz = 0
+    for i in range(0,len(foo)):
+        bar += foo[i][0]
+        baz += foo[i][1]
+    print bar, baz
+    return bar, baz
+
+def uni_gravity(G, cray, boff):
+    # newton's law of universal gravitation
+    # F = GMm/r^2
+    if (cray.rect.centerx - boff.rect.centerx) == 0:
+        if (cray.rect.centery - boff.rect.centery) == 0:
+            return (0,0)
+        elif (cray.rect.centery - boff.rect.centery) != 0:
+            return (0, (G * sign(cray.rect.centery - boff.rect.centery) * (cray.mass * boff.mass) / (cray.rect.centery - boff.rect.centery) ** 2))
+    elif (cray.rect.centery - boff.rect.centery) == 0:
+        return ((G * sign(cray.rect.centerx - boff.rect.centerx) * (cray.mass * boff.mass) / (cray.rect.centerx - boff.rect.centerx) ** 2, 0))
+    else:
+        return ((G * sign(cray.rect.centerx - boff.rect.centerx) * (cray.mass * boff.mass) / (cray.rect.centerx - boff.rect.centerx) ** 2), (G * sign(cray.rect.centery - boff.rect.centery) * (cray.mass * boff.mass) / (cray.rect.centery - boff.rect.centery) ** 2))

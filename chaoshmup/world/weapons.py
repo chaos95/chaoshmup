@@ -56,6 +56,7 @@ class PlasmaBall(Projectile):
     def __init__(self, world, owner, pos, heading=0, acceleration=(0,1000)):
         Projectile.__init__(self, world, owner, pos, heading, acceleration)
         self.frame = random.randint(0,len(self.animation)-1)
+        self.mass = 10
 
     def load_images(self):
         image= pygame.image.load(self.IMAGE_FILE)

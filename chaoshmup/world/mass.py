@@ -27,6 +27,7 @@ import pygame
 from entity import Entity
 
 class black_hole(Entity):
+    IMAGE_FILE = "images/black_hole.png" # hurpa derp
     def __init__(self, world):
         Entity.__init__(self, world)
         self.mass = 1000000 # 1 million units - it's a black hole.
@@ -35,6 +36,7 @@ class black_hole(Entity):
         Entity.update(self, delta)
 
 class star(Entity):
+    IMAGE_FILE = "images/star.png"
     def __init__(self, world):
         Entity.__init__(self, world)
         self.mass = 100000 # 100 thousand - it's a freaking star
@@ -43,6 +45,7 @@ class star(Entity):
         Entity.update(self, delta)
 
 class gas_giant(Entity):
+    IMAGE_FILE = "mages/blackhole.png"
     def __init__(self, world):
         Entity.__init__(self, world)
         self.mass = 10000 # 10 thousand - it's a gas giant
@@ -51,6 +54,7 @@ class gas_giant(Entity):
         Entity.update(self, delta)
 
 class planet(Entity):
+    IMAGE_FILE = "images/planet.png"
     def __init__(self, world):
         Entity.__init__(self, world)
         self.mass = 1000 # 1 thousand - meh
