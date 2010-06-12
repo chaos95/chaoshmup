@@ -22,6 +22,8 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 # DAMAGE.
 
+import math
+
 def sign(foo):
     if foo >= 0:
         return 1
@@ -39,12 +41,11 @@ def tuple_xy_add(foo):
 def uni_gravity(G, cray, boff):
     # newton's law of universal gravitation
     # F = GMm/r^2
-    if (cray.rect.centerx - boff.rect.centerx) == 0:
-        if (cray.rect.centery - boff.rect.centery) == 0:
-            return (0,0)
-        elif (cray.rect.centery - boff.rect.centery) != 0:
-            return (0, (G * sign(cray.rect.centery - boff.rect.centery) * (cray.mass * boff.mass) / (cray.rect.centery - boff.rect.centery) ** 2))
-    elif (cray.rect.centery - boff.rect.centery) == 0:
-        return ((G * sign(cray.rect.centerx - boff.rect.centerx) * (cray.mass * boff.mass) / (cray.rect.centerx - boff.rect.centerx) ** 2, 0))
+    if (cray.rect.centery - boff.rect.centery) == 0 and (cray.rect.centerx - boff.rect.centerx) == 0:
+        force = G * (cray.mass * boff.mass)
     else:
-        return ((G * sign(cray.rect.centerx - boff.rect.centerx) * (cray.mass * boff.mass) / (cray.rect.centerx - boff.rect.centerx) ** 2), (G * sign(cray.rect.centery - boff.rect.centery) * (cray.mass * boff.mass) / (cray.rect.centery - boff.rect.centery) ** 2))
+        force = G * (cray.mass * boff.mass) / ((cray.rect.centery - boff.rect.centery) ** 2 + (cray.rect.centerx - boff.rect.centerx) ** 2)
+
+    cray.orientation = math.degrees(math.atan2((cray.rect.centerx - boff.rect.centerx) , (cray.rect.centery - boff.rect.centery)))
+
+    return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))

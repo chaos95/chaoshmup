@@ -58,7 +58,8 @@ def generate_world():
     w.players.add(p)
 
     b = black_hole(w)
-    b.rect.center = (random.randint(20, WINDOWWIDTH-20), random.randint(20, WINDOWHEIGHT-20))
+    #b.rect.center = (random.randint(20, WINDOWWIDTH-20), random.randint(20, WINDOWHEIGHT-20))
+    b.rect.center = (WINDOWWIDTH / 2.0, WINDOWHEIGHT / 2.0)
     w.planets.add(b)
 
     return w
