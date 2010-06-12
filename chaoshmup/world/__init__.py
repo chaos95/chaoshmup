@@ -62,7 +62,7 @@ class World(object):
         self.black_holes = pygame.sprite.Group()
 
     def gravity(self, delta):
-        G = .0066 # some semblence of a universal gravitational constant.
+        G = -66 # some semblence of a universal gravitational constant.
         self.matter = self.players.sprites()[:] + self.enemies.sprites()[:] + self.planets.sprites()[:] # I'll add stars, planets, etc. later
         for cray in self.matter:
             while len(cray.force) > 0:
@@ -71,7 +71,7 @@ class World(object):
                 if cray != boff:
                     cray.force.append(uni_gravity(G, cray, boff))
             foo = tuple_xy_add(cray.force)
-            cray.velocity += (delta * foo[0] / cray.mass, delta * foo[1] / cray.mass)
+            cray.velocity -= (delta * foo[0] / cray.mass, delta * foo[1] / cray.mass)
 
     def update(self, delta):
         self.players.update(delta)
@@ -79,6 +79,8 @@ class World(object):
         self.projectiles.update(delta)
         self.explosions.update(delta)
         self.planets.update(delta)
+
+        self.gravity(delta)
 
         # Keep players on the screen
         for p in self.players.sprites() + self.enemies.sprites():

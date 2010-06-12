@@ -46,6 +46,6 @@ def uni_gravity(G, cray, boff):
     else:
         force = G * (cray.mass * boff.mass) / ((cray.rect.centery - boff.rect.centery) ** 2 + (cray.rect.centerx - boff.rect.centerx) ** 2)
 
-    cray.orientation = math.degrees(math.atan2((cray.rect.centerx - boff.rect.centerx) , (cray.rect.centery - boff.rect.centery)))
+    #cray.orientation = math.degrees(math.atan2((cray.rect.centerx - boff.rect.centerx) , (cray.rect.centery - boff.rect.centery)))
 
-    return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))
+    return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (sign(boff.rect.centery - cray.rect.centery) * math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))
