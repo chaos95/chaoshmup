@@ -71,7 +71,7 @@ class World(object):
                 if cray != boff:
                     cray.force.append(uni_gravity(G, cray, boff))
             foo = tuple_xy_add(cray.force)
-            cray.velocity -= (delta * foo[0] / cray.mass, delta * foo[1] / cray.mass)
+            cray.velocity += (delta * foo[0] / cray.mass, delta * foo[1] / cray.mass)
 
     def update(self, delta):
         self.players.update(delta)

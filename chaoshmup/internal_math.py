@@ -24,6 +24,8 @@
 
 import math
 
+from contrib.vector import Vector
+
 def sign(foo):
     if foo >= 0:
         return 1
@@ -40,12 +42,17 @@ def tuple_xy_add(foo):
 
 def uni_gravity(G, cray, boff):
     # newton's law of universal gravitation
-    # F = GMm/r^2
-    if (cray.rect.centery - boff.rect.centery) == 0 and (cray.rect.centerx - boff.rect.centerx) == 0:
-        force = G * (cray.mass * boff.mass)
+    # F = G(Mm)/r^2 but in vector form
+    A = Vector((cray.rect.centerx, cray.rect.centery))
+    B = Vector((boff.rect.centerx, boff.rect.centery))
+    foo = Vector((0,0))
+    F = Vector((0,0))
+
+    foo += (G * (cray.mass * boff.mass), G * (cray.mass * boff.mass))
+    if (A - B) != (0,0):
+        F += (foo / (A - B) * (A - B) ) * ((A - B) / (abs(A - B)))
     else:
-        force = G * (cray.mass * boff.mass) / ((cray.rect.centery - boff.rect.centery) ** 2 + (cray.rect.centerx - boff.rect.centerx) ** 2)
+        F += foo
 
-    #cray.orientation = math.degrees(math.atan2((cray.rect.centerx - boff.rect.centerx) , (cray.rect.centery - boff.rect.centery)))
-
-    return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (sign(boff.rect.centery - cray.rect.centery) * math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))
+    return F
+    #return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (sign(boff.rect.centery - cray.rect.centery) * math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))
