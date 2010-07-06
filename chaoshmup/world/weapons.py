@@ -36,6 +36,7 @@ class Projectile(Entity):
         Entity.__init__(self, world)
         self.owner = owner
         self.rect.center = pos
+        self.orientation = heading
         self.acceleration = vector.Vector(acceleration).rotated(180-heading)
         self.damage = self.DAMAGE
 
@@ -79,7 +80,7 @@ class Weapon(Entity):
             return
 
         self.world.projectiles.add(self.PROJECTILE_TYPE(self.world, self.owner,
-                                                        self.owner.position, self.owner.rotation))
+                                                        self.owner.position, self.owner.orientation))
 
     def release(self):
         pass
@@ -100,6 +101,11 @@ class RepeaterWeapon(Weapon):
     def release(self):
         self.firing = False
 
+    def spawn_projectile(self):
+        self.world.projectiles.add(
+            self.PROJECTILE_TYPE(self.world, self.owner,
+                                 self.owner.position, self.owner.orientation))
+
     def update(self, delta):
         self.reload += delta
         if self.reload >= self.RATE_OF_FIRE:
@@ -107,10 +113,22 @@ class RepeaterWeapon(Weapon):
                 return
 
             if self.firing:
-                self.world.projectiles.add(
-                    self.PROJECTILE_TYPE(self.world, self.owner,
-                                         self.owner.position, self.owner.orientation))
+                self.spawn_projectile()
             self.reload = 0.0
+
+class FanWeapon(RepeaterWeapon):
+    ARC = 0.0
+    NUM_PROJECTILES = 0
+    def calc_angle(self, i):
+        half_arc = self.ARC / 2.0
+        return i * self.ARC / self.NUM_PROJECTILES - half_arc
+    def spawn_projectile(self):
+        proj = []
+        for i in range(self.NUM_PROJECTILES):
+            proj.append(self.PROJECTILE_TYPE(self.world, self.owner,
+                                             self.owner.position,
+                                             self.owner.orientation + self.calc_angle(i)))
+        self.world.projectiles.add(proj)
     
 class LaserRepeater(RepeaterWeapon):
     PROJECTILE_TYPE = LaserBolt
@@ -122,3 +140,9 @@ class PlasmaRepeater(RepeaterWeapon):
 
 class PlasmaCannon(Weapon):
     PROJECTILE_TYPE = PlasmaBall
+
+class LaserFan(FanWeapon):
+    PROJECTILE_TYPE = LaserBolt
+    RATE_OF_FIRE = 0.1
+    ARC = 60.0
+    NUM_PROJECTILES = 5

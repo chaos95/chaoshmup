@@ -38,7 +38,7 @@ class Entity(pygame.sprite.Sprite):
     FRAME_DELAY = 99999999.0
     MAX_VEL = 500
     FRICTION_MULTIPLIER = 0.5
-    START_ORIENTATION = 180
+    START_ORIENTATION = 0
     START_ROTATION = 0
     def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)

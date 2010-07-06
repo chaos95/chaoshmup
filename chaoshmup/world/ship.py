@@ -25,7 +25,7 @@
 import pygame
 
 from entity import Entity
-from weapons import LaserRepeater, PlasmaRepeater, PlasmaCannon
+from weapons import LaserRepeater, PlasmaRepeater, PlasmaCannon, LaserFan
 
 class Ship(Entity):
     THRUST_HORIZ = 500
@@ -71,7 +71,8 @@ class Player(Ship):
         self.name = name
         self.team = team
         self.weapons = [LaserRepeater(self.world, self),
-                        PlasmaRepeater(self.world, self)]
+                        PlasmaRepeater(self.world, self),
+                        LaserFan(self.world, self)]
 
     def load_images(self):
         image = pygame.image.load(self.IMAGE_FILE)

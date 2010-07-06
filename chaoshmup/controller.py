@@ -49,8 +49,8 @@ class PlayerController(InputController):
             , InputAction("%s Left Thruster" % self.player.name, self.thruster_control(True, Directions.LEFT), self.thruster_control(False, Directions.LEFT))
             , InputAction("%s Up Thruster" % self.player.name, self.thruster_control(True, Directions.UP), self.thruster_control(False, Directions.UP))
             , InputAction("%s Down Thruster" % self.player.name, self.thruster_control(True, Directions.DOWN), self.thruster_control(False, Directions.DOWN))
-            , InputAction("%s Fire Primary" % self.player.name, self.primary_fire(), self.primary_release())
-            , InputAction("%s Fire Secondary" % self.player.name, self.secondary_fire(), self.secondary_release())
+            , InputAction("%s Fire Primary" % self.player.name, self.player.weapons[0].fire, self.player.weapons[0].release)
+            , InputAction("%s Fire Secondary" % self.player.name, self.player.weapons[1].fire, self.player.weapons[1].release)
             ]
             
     def thruster_control(self, switch_on, direction):
@@ -76,24 +76,3 @@ class PlayerController(InputController):
                     self.player.acceleration -= (0, self.player.THRUST_VERT)
 
         return control
-
-    def primary_fire(self):
-        def control():
-            self.player.weapons[0].fire()
-        return control
-
-    def secondary_fire(self):
-        def control():
-            self.player.weapons[1].fire()
-        return control
-
-    def primary_release(self):
-        def control():
-            self.player.weapons[0].release()
-        return control
-
-    def secondary_release(self):
-        def control():
-            self.player.weapons[1].release()
-        return control
-            
