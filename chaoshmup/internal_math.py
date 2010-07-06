@@ -45,14 +45,8 @@ def uni_gravity(G, cray, boff):
     # F = G(Mm)/r^2 but in vector form
     A = Vector((cray.rect.centerx, cray.rect.centery))
     B = Vector((boff.rect.centerx, boff.rect.centery))
-    foo = Vector((0,0))
-    F = Vector((0,0))
-
-    foo += (G * (cray.mass * boff.mass), G * (cray.mass * boff.mass))
-    if (A - B) != (0,0):
-        F += (foo / (A - B) * (A - B) ) * ((A - B) / (abs(A - B)))
+    r = A - B
+    if r.length2 == 0:
+        return r
     else:
-        F += foo
-
-    return F
-    #return ((math.cos(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force), (sign(boff.rect.centery - cray.rect.centery) * math.sin(math.atan2((cray.rect.centerx - boff.rect.centerx), (cray.rect.centery - boff.rect.centery))) * force))
+        return r.safe_scaled_to(G * cray.mass * boff.mass / r.length2)
