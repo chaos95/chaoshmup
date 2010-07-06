@@ -31,6 +31,21 @@ class InputAction(object):
         self.down_func = down_func
         self.up_func = up_func
 
+class WeaponInputAction(InputAction):
+    def __init__(self, description, weapon):
+        InputAction.__init__(self, description, weapon.fire, weapon.release)
+        self._weapon = weapon
+
+    @property
+    def weapon(self):
+        return self._weapon
+
+    @weapon.setter
+    def weapon(self, value):
+        self._weapon = value
+        self.down_func = self._weapon.fire
+        self.up_func = self._weapon.release
+
 class Directions(object):
     RIGHT=0
     LEFT=1
@@ -44,15 +59,25 @@ class InputController(object):
 class PlayerController(InputController):
     def __init__(self, player):
         self.player = player
+        self.current_weapon = 0
         self.input_actions = [
             InputAction("%s Right Thruster" % self.player.name, self.thruster_control(True, Directions.RIGHT), self.thruster_control(False, Directions.RIGHT))
             , InputAction("%s Left Thruster" % self.player.name, self.thruster_control(True, Directions.LEFT), self.thruster_control(False, Directions.LEFT))
             , InputAction("%s Up Thruster" % self.player.name, self.thruster_control(True, Directions.UP), self.thruster_control(False, Directions.UP))
             , InputAction("%s Down Thruster" % self.player.name, self.thruster_control(True, Directions.DOWN), self.thruster_control(False, Directions.DOWN))
-            , InputAction("%s Fire Primary" % self.player.name, self.player.weapons[0].fire, self.player.weapons[0].release)
-            , InputAction("%s Fire Secondary" % self.player.name, self.player.weapons[1].fire, self.player.weapons[1].release)
+            , WeaponInputAction("%s Fire Primary" % self.player.name, self.player.weapons[self.current_weapon])
+            , InputAction("%s Switch Weapon" % self.player.name, self.switch_weapon, None)
             ]
             
+
+    def switch_weapon(self):
+        self.current_weapon += 1
+        if self.current_weapon >= len(self.player.weapons):
+            self.current_weapon = 0
+        # update weapon actions
+        for a in [act for act in self.input_actions if hasattr(act, 'weapon')]:
+            a.weapon = self.player.weapons[self.current_weapon]
+
     def thruster_control(self, switch_on, direction):
         if switch_on:
             def control():
