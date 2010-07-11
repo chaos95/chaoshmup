@@ -26,12 +26,6 @@ import pygame
 
 from contrib.vector import Vector
 
-def sign(val):
-    if val >= 0:
-        return 1
-    else:
-        return -1
-
 class Entity(pygame.sprite.Sprite):
     IMAGE_FILE = ""
     DEFAULT_ANIMATION = "default"
