@@ -121,7 +121,7 @@ class FanWeapon(RepeaterWeapon):
     NUM_PROJECTILES = 0
     def calc_angle(self, i):
         half_arc = self.ARC / 2.0
-        return i * self.ARC / self.NUM_PROJECTILES - half_arc
+        return i * self.ARC / (self.NUM_PROJECTILES - 1) - half_arc
     def spawn_projectile(self):
         proj = []
         for i in range(self.NUM_PROJECTILES):
